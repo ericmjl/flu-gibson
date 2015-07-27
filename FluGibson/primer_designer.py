@@ -29,7 +29,6 @@ Dependencies:
 - networkx
 """
 
-
 class PrimerDesigner(object):
 
     """docstring for PrimerDesigner"""
