@@ -9,18 +9,18 @@ import pandas as pd
 import networkx as nx
 
 """
-A small utility that produces Gibson/CPEC assembly primers to be assembled 
-into a circular plasmid. 
+A small utility that produces Gibson/CPEC assembly primers to be assembled
+into a circular plasmid.
 
-Input: A single FASTA file containing nucleotide sequences in clockwise order 
-of assembly. The nucleotide sequence should all be the same strand. 
+Input: A single FASTA file containing nucleotide sequences in clockwise order
+of assembly. The nucleotide sequence should all be the same strand.
 
-Output: A set of named primers required for the assembly, along with their 
+Output: A set of named primers required for the assembly, along with their
 sequences, and the predicted PCR product size.
 
-Assumptions: 
-- The region of annealing is not repeated anywhere, i.e. it is unique. 
-- The plasmid sequence is predicted to be stable (no homologous recombination 
+Assumptions:
+- The region of annealing is not repeated anywhere, i.e. it is unique.
+- The plasmid sequence is predicted to be stable (no homologous recombination
   possible).
 
 Dependencies:
@@ -52,7 +52,7 @@ class PrimerDesigner(object):
 
     def design_primers(self):
         '''
-        Given the sequences present in the graph, design primers that are 
+        Given the sequences present in the graph, design primers that are
         15 n.t. overhang and 25 n.t. annealing.
         '''
         for n, d in self.graph.nodes(data=True):
@@ -74,7 +74,7 @@ class PrimerDesigner(object):
     def compute_pcr_protocol(self):
         """
         Returns a list of dictionaries.
-        This format is really flexible, can be converted into a pandas 
+        This format is really flexible, can be converted into a pandas
         dataframe later on.
         """
         pcr_protocol = list()
