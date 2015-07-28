@@ -11,16 +11,19 @@ The installation requires the following packages:
 4. `matplotlib` (optional)
 
 *From Github:*
+
 1. Download this repository as a Zip file.
 2. Unzip the file.
 3. In your terminal, navigate to the FluGibson directory.
 4. Run command: `python setup.py install`
 
 *From PyPI: (not ready yet)*
+
 1. (if applicable) Switch to your proper Python environment.
 2. Run command: `pip install FluGibson`
 
-*Using Conda:*
+*Using Conda: (not ready yet)*
+
 1. (if applicable) Switch to your proper Python environment.
 2. Run command: `conda install FluGibson`
 
