@@ -106,10 +106,10 @@ class PrimerDesigner(object):
             "{filename}.csv".format(filename=self.filename.split('.')[0]))
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
 
-    filename = sys.argv[1]
-    pdesigner = PrimerDesigner(filename)
-    pdesigner.design_primers()
-    pdesigner.compute_pcr_protocol()
-    pdesigner.save_pcr_protocol()
+#     filename = sys.argv[1]
+#     pdesigner = PrimerDesigner(filename)
+#     pdesigner.design_primers()
+#     pdesigner.compute_pcr_protocol()
+#     pdesigner.save_pcr_protocol()

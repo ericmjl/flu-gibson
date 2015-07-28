@@ -1,2 +1,3 @@
-from FluGibson.primer_designer import primer_designer
+from primer_designer import PrimerDesigner
 
+p = PrimerDesigner()
