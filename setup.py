@@ -12,4 +12,5 @@ setup(
     url='https://github.com/ericmjl/flu-gibson',
     keywords=['biology'],  # arbitrary keywords
     classifiers=[],
+    requires=['networkx', 'pandas', 'matplotlib', 'biopython']
 )
