@@ -21,7 +21,7 @@ install:
   - python setup.py install
 
   # For debugging purposes
-  - conda env list
+  - conda list
 
 script:
   - py.test
