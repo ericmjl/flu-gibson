@@ -1,0 +1,3 @@
+,fw_len,fw_primer,fw_sequence,pcr_length,phusion_extension_minutes,re_len,re_primer,re_sequence,template
+0,40,victoria_np_pCI_delta_EcoRI_fw,GAGTACGACAATTAAACGCGTGGTACCTCTAGAGTCGACC,4031,2.0155,40,victoria_np_pCI_delta_EcoRI_re,GCCTTGGGACGCCATCTCGAGGCTAGCCTATAGTGAGTCG,pCI_delta_EcoRI
+1,40,victoria_np_Vic_NP_fw,TAGGCTAGCCTCGAGATGGCGTCCCAAGGCACCAAACGGT,1527,0.7635,40,victoria_np_Vic_NP_re,AGAGGTACCACGCGTTTAATTGTCGTACTCTTCTGCATTG,Vic_NP
