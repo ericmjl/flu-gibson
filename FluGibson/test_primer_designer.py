@@ -20,3 +20,5 @@ def test_construct_graph():
 	assert len(p.graph.edges()) == 2
 	assert isinstance(p.graph, nx.DiGraph)
 
+def test_compute_pcr_protocol():
+	pass
