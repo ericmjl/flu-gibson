@@ -1,4 +1,4 @@
-from primer_designer import PrimerDesigner
+from FluGibson.primer_designer import PrimerDesigner
 import os
 import networkx as nx
 
