@@ -1,0 +1,35 @@
+name: flu_gibson
+dependencies:
+- biopython=1.65=np19py34_0
+- decorator=3.4.2=py34_0
+- freetype=2.5.2=2
+- ipython=3.2.1=py34_0
+- libpng=1.6.17=0
+- matplotlib=1.4.3=np19py34_3
+- networkx=1.9.1=py34_0
+- numpy=1.9.2=py34_0
+- openssl=1.0.1k=1
+- pandas=0.16.2=np19py34_0
+- pep8=1.6.2=py34_0
+- pip=7.1.0=py34_0
+- py=1.4.30=py34_0
+- pyparsing=2.0.3=py34_0
+- pyqt=4.11.3=py34_0
+- pytest=2.7.2=py34_0
+- python=3.4.3=0
+- python-dateutil=2.4.2=py34_0
+- python.app=1.2=py34_4
+- pytz=2015.4=py34_0
+- qt=4.8.6=3
+- readline=6.2=2
+- setuptools=18.0.1=py34_0
+- sip=4.16.5=py34_0
+- six=1.9.0=py34_0
+- sqlite=3.8.4.1=1
+- tk=8.5.18=0
+- xz=5.0.5=0
+- zlib=1.2.8=0
+- pip:
+  - autopep8==1.2
+  - flugibson==1.0
+
