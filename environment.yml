@@ -31,5 +31,4 @@ dependencies:
 - zlib=1.2.8=0
 - pip:
   - autopep8==1.2
-  - flugibson==1.0
 
