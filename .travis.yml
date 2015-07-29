@@ -16,7 +16,7 @@ install:
   - conda info -a
 
   # Replace dep1 dep2 ... with your dependencies
-  - conda create -n test_env python=$TRAVIS_PYTHON_VERSION --file environment.yml
+  - conda create -n test_env python=$TRAVIS_PYTHON_VERSION biopython networkx pandas pytest pep8
   - source activate test_env
   - python setup.py install
 
