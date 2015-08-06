@@ -1,4 +1,7 @@
 # FluGibson
+
+![Travis Status](https://travis-ci.org/ericmjl/flu-gibson.svg)
+
 A tool for designing primers to clone influenza polymerase segments from viral cDNA.
 
 # Installation
