@@ -10,7 +10,7 @@ setup(
     author_email='ericmajinglong@gmail.com',
     # use the URL to the github repo
     url='https://github.com/ericmjl/flu-gibson',
-    keywords=['biology'],  # arbitrary keywords
+    keywords=['biology', 'molecular biology', 'cloning'],  # arbitrary keywords
     classifiers=[],
     requires=['networkx', 'pandas', 'matplotlib', 'biopython']
 )
