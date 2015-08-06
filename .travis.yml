@@ -24,5 +24,10 @@ install:
   - conda list
 
 script:
+  # Run regular test suite
   - py.test
   - pep8
+
+  # Check to make sure that PyPI installation works
+  - pip uninstall FluGibson --yes
+  - pip install FluGibson --yes
