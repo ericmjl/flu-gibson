@@ -30,4 +30,4 @@ script:
 
   # Check to make sure that PyPI installation works
   - pip uninstall FluGibson --yes
-  - pip install FluGibson --yes
+  - pip install FluGibson
