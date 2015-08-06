@@ -16,7 +16,7 @@ setup(
     description='A Python package for designing influenza reverse genetics \
                  primers using the seamless cloning methods (e.g. Gibson \
                  assembly, CPEC assembly).',
-	long_description=long_description,
+    long_description=long_description,
     author='Eric J. Ma',
     author_email='ericmajinglong@gmail.com',
     license='MIT',
@@ -47,6 +47,6 @@ setup(
         'Programming Language :: Python :: 3.4',
     ],
     requires=['networkx', 'pandas', 'matplotlib', 'biopython'],
-    package_data={'readme':['README.md']},
+    package_data={'readme': ['README.md']},
 
 )
