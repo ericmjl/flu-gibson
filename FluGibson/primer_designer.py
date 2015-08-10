@@ -73,8 +73,8 @@ class PrimerDesigner(object):
 
     def design_sequencing_primers(self):
         """
-        For each junction (i.e. edge) in the graph, design primers that are 
-        positioned at -100 on the upstream part relative to the junction, and 
+        For each junction (i.e. edge) in the graph, design primers that are
+        positioned at -100 on the upstream part relative to the junction, and
         +100 on the downstream part relative to the junction.
         """
 
