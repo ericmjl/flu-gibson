@@ -20,12 +20,12 @@ The installation requires the following packages:
 3. In your terminal, navigate to the FluGibson directory.
 4. Run command: `python setup.py install`
 
-*From PyPI: (not ready yet)*
+*From PyPI:*
 
 1. (if applicable) Switch to your proper Python environment.
 2. Run command: `pip install FluGibson`
 
-*Using Conda: (not ready yet)*
+*Using Conda:*
 
 1. (if applicable) Switch to your proper Python environment.
 2. Run command: `conda install FluGibson`
