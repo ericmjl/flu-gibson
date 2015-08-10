@@ -10,6 +10,7 @@ os.chdir(os.path.join(package_directory, 'test_data'))
 p = PrimerDesigner('victoria_np.fasta')
 p.construct_graph()
 p.design_assembly_primers()
+p.design_sequencing_primers()
 p.compute_pcr_protocol()
 p.save_pcr_protocol()
 
