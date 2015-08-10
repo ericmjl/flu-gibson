@@ -50,7 +50,7 @@ class PrimerDesigner(object):
                 zeroth_seq = self.sequences[0]
                 self.graph.add_edge(s, zeroth_seq)
 
-    def design_primers(self):
+    def design_assembly_primers(self):
         '''
         Given the sequences present in the graph, design primers that are
         15 n.t. overhang and 25 n.t. annealing.
