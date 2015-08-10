@@ -7,13 +7,14 @@ master_primer_list = list()
 
 for f in os.listdir(os.getcwd()):
     if '.fasta' in f:
-        pdesigner = PrimerDesigner(f)
-        pdesigner.construct_graph()
-        pdesigner.design_primers()
-        pdesigner.compute_pcr_protocol()
-        pdesigner.save_pcr_protocol()
+        p = PrimerDesigner(f)
+        p.construct_graph()
+        p.design_assembly_primers()
+        p.design_sequencing_primers()
+        p.compute_pcr_protocol()
+        p.save_pcr_protocol()
 
-        graph = pdesigner.graph
+        graph = p.graph
 
         for n, d in graph.nodes(data=True):
             for prefix in ['fw', 're']:
