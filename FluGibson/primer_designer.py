@@ -72,18 +72,18 @@ class PrimerDesigner(object):
                 '.')[0] + '_' + n.id + '_re'
 
     def design_sequencing_primers(self):
-    	"""
-    	For each junction (i.e. edge) in the graph, design primers that are 
-    	positioned at -100 on the upstream part relative to the junction, and 
-    	+100 on the downstream part relative to the junction.
-    	"""
+        """
+        For each junction (i.e. edge) in the graph, design primers that are 
+        positioned at -100 on the upstream part relative to the junction, and 
+        +100 on the downstream part relative to the junction.
+        """
 
-    	for upstream, downstream, d in self.graph.edges(data=True):
-    		fw_primer = SeqRecord(upstream.seq[-120:-100])
-    		re_primer = SeqRecord(downstream.seq[100:120]).reverse_complement()
+        for upstream, downstream, d in self.graph.edges(data=True):
+            fw_primer = SeqRecord(upstream.seq[-120:-100])
+            re_primer = SeqRecord(downstream.seq[100:120]).reverse_complement()
 
-    		self.graph.node[upstream]['fw_sequencing_primer'] = fw_primer
-    		self.graph.node[downstream]['re_sequencing_primer'] = re_primer
+            self.graph.node[upstream]['fw_sequencing_primer'] = fw_primer
+            self.graph.node[downstream]['re_sequencing_primer'] = re_primer
 
     def compute_pcr_protocol(self):
         """
