@@ -27,6 +27,7 @@ Dependencies:
 - biopython
 - pandas
 - networkx
+- matplotlib
 """
 
 
