@@ -26,11 +26,13 @@ print(nc.protocol)
 def test_compute_distance_graph():
     assert len(nc.distance_graph.edges()) == 5
 
+
 def test_compute_assembly_steps():
     true_protocol = defaultdict(set)
     true_protocol[1] = set([26, 362, 223])
     true_protocol[2] = set([224])
     assert nc.protocol == true_protocol
+
 
 def test_compute_diff_codon_positions():
     assert nc.codon_positions == set([224, 26, 362, 223])
