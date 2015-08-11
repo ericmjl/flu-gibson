@@ -103,7 +103,7 @@ class NucleotideConverter(object):
         # Copy the distance graph.
         G = self.distance_graph.copy()
 
-        def _assembly_steps(G, current):
+        def _assembly_step(G, current):
             """
             Helper function that computes the current iteration assembly step.
             """
@@ -122,7 +122,7 @@ class NucleotideConverter(object):
             return step
 
         # Initialize the assembly step dictionary
-        steps = defaultdict(set)
+        protocol = defaultdict(set)
 
         # Iterate over nodes
         i = 0
@@ -130,6 +130,8 @@ class NucleotideConverter(object):
             i += 1
             # Find node with smallest number.
             start = min(G.nodes())
-            steps[i] = _assembly_steps(G, start)
+            protocol[i] = _assembly_step(G, start)
 
-            G.remove_nodes_from(steps[i])
+            G.remove_nodes_from(protocol[i])
+
+        self.protocol = protocol
