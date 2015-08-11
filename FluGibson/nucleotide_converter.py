@@ -135,3 +135,4 @@ class NucleotideConverter(object):
             G.remove_nodes_from(protocol[i])
 
         self.protocol = protocol
+        
