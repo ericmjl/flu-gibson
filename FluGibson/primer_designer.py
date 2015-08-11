@@ -79,8 +79,8 @@ class PrimerDesigner(object):
         """
 
         for upstream, downstream, d in self.graph.edges(data=True):
-            fw_primer = SeqRecord(upstream.seq[-120:-100])
-            re_primer = SeqRecord(downstream.seq[100:120]).reverse_complement()
+            fw_primer = SeqRecord(upstream.seq[-125:-100])
+            re_primer = SeqRecord(downstream.seq[100:125]).reverse_complement()
 
             self.graph.node[upstream]['fw_sequencing_primer'] = fw_primer
             self.graph.node[downstream]['re_sequencing_primer'] = re_primer
