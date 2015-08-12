@@ -40,6 +40,9 @@ class NucleotideConverter(object):
         # The intermediate plasmids.
         self.intermediates = dict()
 
+        # The plasmid backbone in which the cloning is to be performed.
+        self.plasmid_backbone = None
+
     def read_sequences(self, source, destination):
         """
         Reads in the source and destination sequences.
@@ -183,3 +186,4 @@ class NucleotideConverter(object):
 
 
         """
+        pass
