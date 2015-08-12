@@ -11,7 +11,7 @@ p = PrimerDesigner()
 p.read_sequences('victoria_np.fasta')
 p.construct_graph()
 p.design_assembly_primers()
-p.design_sequencing_primers()
+p.design_junction_sequencing_primers()
 p.compute_pcr_protocol()
 
 print(p.pcr_protocol)

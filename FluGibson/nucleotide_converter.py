@@ -240,7 +240,7 @@ class NucleotideConverter(object):
             p.filename = 'step{step}'.format(step=step)
             p.construct_graph()
             p.design_assembly_primers()
-            p.design_sequencing_primers()
+            p.design_junction_sequencing_primers()
             p.compute_pcr_protocol()
 
             self.primer_designers[step] = p
