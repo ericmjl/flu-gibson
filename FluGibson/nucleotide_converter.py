@@ -22,10 +22,10 @@ class NucleotideConverter(object):
         super(NucleotideConverter, self).__init__()
 
         # The source sequence.
-        self.source = None
+        self.src = None
 
         # The destination sequence.
-        self.destination = None
+        self.des = None
 
         # A list of codon positions where source and destination differ
         self.codon_positions = None
@@ -33,6 +33,12 @@ class NucleotideConverter(object):
         # A NetworkX graph that stores the distance between each codon that
         # needs to be mutated.
         self.distance_graph = None
+
+        # The assembly protocol.
+        self.protocol = defaultdict(set)
+
+        # The intermediate plasmids.
+        self.intermediates = dict()
 
     def read_sequences(self, source, destination):
         """
@@ -43,8 +49,8 @@ class NucleotideConverter(object):
 
         assert len(src.seq) == len(des.seq)
 
-        self.source = src
-        self.destination = des
+        self.src = src
+        self.des = des
 
     def compute_diff_codon_positions(self):
         """
@@ -54,9 +60,9 @@ class NucleotideConverter(object):
 
         # Initialize an empty set of codon positions
         codon_positions = set()
-        for i, _ in enumerate(self.source.seq[::3]):
-            codon1 = self.source.seq[(i * 3):(i * 3 + 3)]
-            codon2 = self.destination.seq[(i * 3):(i * 3 + 3)]
+        for i, _ in enumerate(self.src.seq[::3]):
+            codon1 = self.src.seq[(i * 3):(i * 3 + 3)]
+            codon2 = self.des.seq[(i * 3):(i * 3 + 3)]
             if str(codon1) != str(codon2):
                 codon_positions.add(i)
 
@@ -102,23 +108,22 @@ class NucleotideConverter(object):
         def _assembly_step(G, current):
             """
             Helper function that computes the current iteration assembly step.
+
+
             """
             step = set([current])
 
-            def next_nearest_node(G, n):
+            def _next_nearest_node(G, n):
                 if len(G.successors(n)) == 0:
                     return None
                 else:
                     return min(G.successors(n))
 
-            while next_nearest_node(G, current):
-                step.add(next_nearest_node(G, current))
-                current = next_nearest_node(G, current)
+            while _next_nearest_node(G, current):
+                step.add(_next_nearest_node(G, current))
+                current = _next_nearest_node(G, current)
 
             return step
-
-        # Initialize the assembly step dictionary
-        protocol = defaultdict(set)
 
         # Iterate over nodes
         i = 0
@@ -126,19 +131,38 @@ class NucleotideConverter(object):
             i += 1
             # Find node with smallest number.
             start = min(G.nodes())
-            protocol[i] = _assembly_step(G, start)
+            self.protocol[i] = _assembly_step(G, start)
 
-            G.remove_nodes_from(protocol[i])
+            G.remove_nodes_from(self.protocol[i])
 
-        self.protocol = protocol
+    def compute_intermediate_sequences(self):
+        """
+        Given the step in the protocol, computes the intermediate assembled
+        sequence.
+        """
+
+        for i in self.protocol.keys():
+            if i == 1:
+                source = self.src
+            else:
+                source = self.intermediates[i-1]
+            intermediate = ''
+            for codon_pos, _ in enumerate(self.src[::3]):
+                # print(source.seq[codon_pos:codon_pos+3])
+                if codon_pos in self.protocol[i]:
+                    intermediate += self.des.seq[codon_pos*3:codon_pos*3+3]
+                else:
+                    intermediate += source.seq[codon_pos*3:codon_pos*3+3]
+
+            self.intermediates[i] = SeqRecord(seq=intermediate)
 
     def compute_pcr_fragments(self):
         """
-        Computes the PCR fragments to assemble, based on the protocol. The 
-        protocol currently specifies the codon positions to be mutated. For 
+        Computes the PCR fragments to assemble, based on the protocol. The
+        protocol currently specifies the codon positions to be mutated. For
         example, if we have:
 
-            {1: {26, 223, 362}, 
+            {1: {26, 223, 362},
              2: {224}}
 
         Then on the first round, the PCR fragments on the plasmid will go from:
@@ -149,8 +173,7 @@ class NucleotideConverter(object):
         On the second round, the PCR fragments on the plasmid will go from:
             - codon 224 looping back to 223
 
-        The output of this function is a set of temporary FASTA files that 
-        will define the final plasmid. In this 
+
 
 
 
