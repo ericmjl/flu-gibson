@@ -156,7 +156,7 @@ class NucleotideConverter(object):
     def compute_intermediate_sequences(self):
         """
         Given the step in the protocol, computes the intermediate assembled
-        sequence.
+        sequences.
         """
 
         for i in self.protocol.keys():
@@ -189,7 +189,7 @@ class NucleotideConverter(object):
 
         On the second round, the PCR fragments on the plasmid will go from:
             - codon 224 looping back to 223
-
+        
         Parameters:
         ===========
         - None
