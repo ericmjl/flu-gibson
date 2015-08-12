@@ -130,3 +130,17 @@ class NucleotideConverter(object):
             G.remove_nodes_from(protocol[i])
 
         self.protocol = protocol
+
+    def compute_pcr_fragments(self):
+        """
+        Computes the PCR fragments to assemble, based on the protocol. The protocol currently specifies the codon positions to be mutated. For example, if we have:
+
+            {1: {26, 223, 362}, 2: {224}}
+
+        Then the PCR fragments on the plasmid will go from:
+            - codon 26-222 (inclusive)
+            - codon 223 to 362 (inclusive)
+            - codon 362 looping back to 25 (inclusive)
+
+        
+        """
