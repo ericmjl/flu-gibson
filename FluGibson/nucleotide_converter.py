@@ -166,7 +166,6 @@ class NucleotideConverter(object):
                 source = self.intermediates[i-1]
             intermediate = ''
             for codon_pos, _ in enumerate(self.src[::3]):
-                # print(source.seq[codon_pos:codon_pos+3])
                 if codon_pos in self.protocol[i]:
                     intermediate += self.des.seq[codon_pos*3:codon_pos*3+3]
                 else:
