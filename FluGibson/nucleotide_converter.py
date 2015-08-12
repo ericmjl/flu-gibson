@@ -48,6 +48,9 @@ class NucleotideConverter(object):
         # The dictionary of sequence fragments at each stage of assembly.
         self.fragments = defaultdict(list)
 
+        # The dictionary of primers to be used for cloning
+        self.mutagenesis_primers = defaultdict(dict)
+
     def read_sequences(self, source, destination):
         """
         Reads in the source and destination sequences.
@@ -215,4 +218,21 @@ class NucleotideConverter(object):
                     fragment += self.backbone.seq
                     fragment += self.intermediates[step].seq[0:next_pos*3]
 
-                self.fragments[step].append(fragment)
+                self.fragments[step].append(SeqRecord(fragment, id='fragment{i}'.format(i=i)))
+
+    def compute_mutagenesis_primers(self):
+        """
+        Using the sequence fragments to be assembled together, computes for
+        each step the primers that are to be used to assemble the mutated
+        fragments.
+        """
+        for step, frags in self.fragments.items():
+            p = PrimerDesigner()
+            p.set_sequences(frags)
+            p.filename = 'step{step}'.format(step=step)
+            p.construct_graph()
+            p.design_assembly_primers()
+            p.design_sequencing_primers()
+            p.compute_pcr_protocol()
+
+            print(p.pcr_protocol)
