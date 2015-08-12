@@ -240,8 +240,6 @@ class NucleotideConverter(object):
             p.design_sequencing_primers()
             p.compute_pcr_protocol()
 
-            #print(p.pcr_protocol)
-
             self.primer_designers[step] = p
 
     def save_mutagenesis_protocol(self):
