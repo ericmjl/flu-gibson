@@ -12,7 +12,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='FluGibson',
     packages=['FluGibson'],  # this must be the same as the name above
-    version='1.1',
+    version='1.2',
     description='A Python package for designing influenza reverse genetics \
                  primers using the seamless cloning methods (e.g. Gibson \
                  assembly, CPEC assembly).',
