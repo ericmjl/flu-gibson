@@ -36,12 +36,14 @@ def test_design_fragment_sequencing_primers():
     for n, d in p.graph.nodes(data=True):
         frag_seq_primers = d['fragment_sequencing_primers']
 
+        # Check that the forward primers are designed correctly.
         for i, primer in enumerate(frag_seq_primers['fw']):
             if i >= 1:
                 assert str(primer) in str(n.seq)
             else:
                 assert str(primer) in str(p.graph.predecessors(n)[0].seq)
 
+        # Check that the reverse primers are designed correctly.
         for i, primer in enumerate(frag_seq_primers['re']):
             if i >= 1:
                 assert str(primer) in str(n.seq.reverse_complement())
