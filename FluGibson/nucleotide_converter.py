@@ -8,6 +8,7 @@ from Bio.SeqRecord import SeqRecord
 from Bio.Alphabet import generic_dna
 from collections import defaultdict
 from itertools import combinations
+from FluGibson.primer_designer import PrimerDesigner
 import networkx as nx
 import os
 
@@ -159,19 +160,19 @@ class NucleotideConverter(object):
         sequences.
         """
 
-        for i in self.protocol.keys():
-            if i == 1:
+        for step in self.protocol.keys():
+            if step == 1:
                 source = self.src
             else:
-                source = self.intermediates[i-1]
+                source = self.intermediates[step-1]
             intermediate = ''
             for codon_pos, _ in enumerate(self.src[::3]):
-                if codon_pos in self.protocol[i]:
+                if codon_pos in self.protocol[step]:
                     intermediate += self.des.seq[codon_pos*3:codon_pos*3+3]
                 else:
                     intermediate += source.seq[codon_pos*3:codon_pos*3+3]
 
-            self.intermediates[i] = SeqRecord(seq=intermediate)
+            self.intermediates[step] = SeqRecord(seq=intermediate)
 
     def compute_pcr_fragments(self):
         """
@@ -193,7 +194,9 @@ class NucleotideConverter(object):
         Parameters:
         ===========
         - None
-
-
         """
+        for step in self.protocol.keys():
+            
+
+
         pass
