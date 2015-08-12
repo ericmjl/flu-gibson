@@ -2,6 +2,7 @@ from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from Bio.Alphabet import generic_dna
+from collections import defaultdict
 
 import matplotlib.pyplot as plt
 import sys
@@ -78,6 +79,13 @@ class PrimerDesigner(object):
         self.sequences = seq_records
 
     def construct_graph(self):
+        """
+        Constructs the graph from the list of SeqRecords.
+
+        The graph definition is as such:
+        - nodes: SeqRecord object
+        - edges: delineating the order of SeqRecord objects.
+        """
         for i, s in enumerate(self.sequences):
             self.graph.add_node(s)
             if i > 0:
@@ -108,7 +116,7 @@ class PrimerDesigner(object):
             self.graph.node[n]['re_primer_name'] = self.filename.split(
                 '.')[0] + '_' + n.id + '_re'
 
-    def design_sequencing_primers(self):
+    def design_junction_sequencing_primers(self):
         """
         For each junction (i.e. edge) in the graph, design primers that are
         positioned at -100 on the upstream part relative to the junction, and
@@ -121,6 +129,37 @@ class PrimerDesigner(object):
 
             self.graph.node[upstream]['fw_sequencing_primer'] = fw_primer
             self.graph.node[downstream]['re_sequencing_primer'] = re_primer
+
+    def design_fragment_sequencing_primers(self):
+        """
+        For each node in the graph, design primers for sequencing that node.
+        """
+
+        for n, d in self.graph.nodes(data=True):
+            # Identify the upstream and downstream parts.
+            upstream = self.graph.predecessors(n)[0]
+            downstream = self.graph.successors(n)[0]
+
+            # Initialize a list of sequencing primers.
+            sequencing_primers = defaultdict(list)
+
+            # Add in fw sequencing primer from the upstream part.
+            sequencing_primers['fw'].append(upstream.seq[-125:-100])
+            # Add in fw sequencing primers from the current part.
+            for pos in range(400, len(n.seq), 500):
+                sequencing_primers['fw'].append(n.seq[pos-25:pos])
+
+            # Add in re sequencing primers from the downstream part.
+            sequencing_primers['re'].append(
+                downstream.seq[100:125].reverse_complement())
+            # Add in re sequencing primers from the current part.
+            for pos in range(400, len(n.seq), 500):
+                sequencing_primers['re'].append(n.seq.reverse_complement()[
+                    pos-25:pos])
+
+            # Assign the sequencing primers to the node metadata
+            self.graph.node[n]['fragment_sequencing_primers'] = \
+                sequencing_primers
 
     def compute_pcr_protocol(self):
         """

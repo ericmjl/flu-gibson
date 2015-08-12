@@ -11,11 +11,15 @@ p = PrimerDesigner()
 p.read_sequences('victoria_np.fasta')
 p.construct_graph()
 p.design_assembly_primers()
-p.design_sequencing_primers()
+p.design_junction_sequencing_primers()
+p.design_fragment_sequencing_primers()
 p.compute_pcr_protocol()
 
 print(p.pcr_protocol)
-print(p.graph)
+for n, d in p.graph.nodes(data=True):
+    print(n)
+    print(d['fragment_sequencing_primers'])
+# print(p.graph.nodes(data=True))
 
 
 def test_construct_graph():
@@ -26,3 +30,24 @@ def test_construct_graph():
 
 def test_compute_pcr_protocol():
     pass
+
+
+def test_design_fragment_sequencing_primers():
+    for n, d in p.graph.nodes(data=True):
+        frag_seq_primers = d['fragment_sequencing_primers']
+
+        # Check that the forward primers are designed correctly.
+        for i, primer in enumerate(frag_seq_primers['fw']):
+            if i >= 1:
+                assert str(primer) in str(n.seq)
+            else:
+                assert str(primer) in str(p.graph.predecessors(n)[0].seq)
+
+        # Check that the reverse primers are designed correctly.
+        for i, primer in enumerate(frag_seq_primers['re']):
+            if i >= 1:
+                assert str(primer) in str(n.seq.reverse_complement())
+
+            else:
+                assert str(primer) in str(
+                    p.graph.successors(n)[0].seq.reverse_complement())

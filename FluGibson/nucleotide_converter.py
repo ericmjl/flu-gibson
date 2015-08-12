@@ -167,6 +167,10 @@ class NucleotideConverter(object):
         """
         Given the step in the protocol, computes the intermediate mutated
         coding sequences.
+
+        Recall: self.protocol is a dictionary, where:
+        - keys:    step number in the cloning protocol
+        - values:  positions of codons to be converted
         """
 
         for step in self.protocol.keys():
@@ -174,6 +178,8 @@ class NucleotideConverter(object):
                 source = self.src
             else:
                 source = self.intermediates[step - 1]
+
+            # Compute what the intermediate fragment will look like.
             intermediate = ''
             for codon_pos, _ in enumerate(self.src[::3]):
                 if codon_pos in self.protocol[step]:
@@ -182,6 +188,8 @@ class NucleotideConverter(object):
                 else:
                     intermediate += source.seq[codon_pos * 3:codon_pos * 3 + 3]
 
+            # Store what the intermediates will look like under the
+            # self.intermediates attribute.
             self.intermediates[step] = SeqRecord(seq=intermediate)
 
     def compute_pcr_fragments(self):
@@ -240,7 +248,7 @@ class NucleotideConverter(object):
             p.filename = 'step{step}'.format(step=step)
             p.construct_graph()
             p.design_assembly_primers()
-            p.design_sequencing_primers()
+            p.design_junction_sequencing_primers()
             p.compute_pcr_protocol()
 
             self.primer_designers[step] = p
