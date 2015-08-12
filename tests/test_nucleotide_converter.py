@@ -16,6 +16,7 @@ nc.compute_assembly_steps()
 nc.compute_intermediate_sequences()
 nc.compute_pcr_fragments()
 nc.compute_mutagenesis_primers()
+
 # print(nc.fragments)
 for step, frags in nc.fragments.items():
     print(step, frags)
