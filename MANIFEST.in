@@ -1,0 +1,2 @@
+recursive-include FluGibson/plasmid_backbones *.fasta
+include README.md
