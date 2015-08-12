@@ -47,7 +47,8 @@ setup(
         'Programming Language :: Python :: 3.4',
     ],
     requires=['networkx', 'pandas', 'matplotlib', 'biopython'],
+    package_dir={'FluGibson':'FluGibson'},
     package_data={'readme': ['README.md'],
-                  'plasmids': ['FluGibson/plasmid_backbones/*.fasta']},
+                  'FluGibson': ['plasmid_backbones/*.fasta']},
 
 )
