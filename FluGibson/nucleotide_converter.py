@@ -55,6 +55,17 @@ class NucleotideConverter(object):
         self.src = src
         self.des = des
 
+    def read_plasmid_backbone(self, backbone):
+        """
+        Sets the plasmid backbone that is used for cloning.
+        """
+        # Set the allowed backbone names:
+        allowed = ['pCI', 'pDZ-PB2', 'pDZ-PB1', 'pDZ-PA', 'pDZ-HA', 'pDZ-NP',
+                   'pDZ-NA', 'pDZ-M', 'pDZ-NS']
+        assert backbone in allowed
+
+        self.backbone = SeqIO.read('plasmid_backbones/{0}.fasta'.format(backbone))
+
     def compute_diff_codon_positions(self):
         """
         Sets the self.codon_positions attribute to a set of codon_positions
