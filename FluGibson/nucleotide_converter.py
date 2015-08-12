@@ -232,8 +232,11 @@ class NucleotideConverter(object):
         fragments.
         """
         for step, frags in self.fragments.items():
+            # Run the standard PrimerDesigner protocol.
             p = PrimerDesigner()
             p.set_sequences(frags)
+
+            # Ensure to set the filename attribute.
             p.filename = 'step{step}'.format(step=step)
             p.construct_graph()
             p.design_assembly_primers()
