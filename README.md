@@ -50,3 +50,10 @@ Create the FASTA formatted files containing the DNA parts that you want to stitc
 The parts will be joined in the order `PART_1-->PART_2-->PART_3`.
 
 To produce the CSV file that has all of the primers listed, from the command line, run `python compute_primers.py`. You will get a CSV file, named `all_primers.csv`, that will house the primers that you will need to order.
+
+
+# Changelog
+
+## Version 1.2
+
+Added a class that converts one nucleotide sequence into another, using Gibson assembly primers.
