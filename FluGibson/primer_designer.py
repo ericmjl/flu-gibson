@@ -15,8 +15,8 @@ into a circular plasmid.
 Input: A single FASTA file containing nucleotide sequences in clockwise order
 of assembly. The nucleotide sequence should all be the same strand.
 
-Output: A set of named primers required for the assembly, along with their
-sequences, and the predicted PCR product size.
+Output: A set of named 40-mer primers required for the assembly, along with
+their sequences, and the predicted PCR product size.
 
 Assumptions:
 - The region of annealing is not repeated anywhere, i.e. it is unique.
@@ -37,8 +37,13 @@ class PrimerDesigner(object):
 
     def __init__(self):
         super(PrimerDesigner, self).__init__()
+        # The FASTA file to assemble.
         self.filename = None
+
+        # The sequences to assemble.
         self.sequences = None
+
+        # A NetworkX graph that stores the assembly graph.
         self.graph = nx.DiGraph()
 
     def read_sequences(self, filename):
