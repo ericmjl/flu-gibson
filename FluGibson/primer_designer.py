@@ -15,8 +15,8 @@ into a circular plasmid.
 Input: A single FASTA file containing nucleotide sequences in clockwise order
 of assembly. The nucleotide sequence should all be the same strand.
 
-Output: A set of named primers required for the assembly, along with their
-sequences, and the predicted PCR product size.
+Output: A set of named 40-mer primers required for the assembly, along with
+their sequences, and the predicted PCR product size.
 
 Assumptions:
 - The region of annealing is not repeated anywhere, i.e. it is unique.
@@ -27,6 +27,7 @@ Dependencies:
 - biopython
 - pandas
 - networkx
+- matplotlib
 """
 
 
@@ -34,11 +35,47 @@ class PrimerDesigner(object):
 
     """docstring for PrimerDesigner"""
 
-    def __init__(self, filename):
+    def __init__(self):
         super(PrimerDesigner, self).__init__()
+        # The FASTA file to assemble.
+        self.filename = None
+
+        # The sequences to assemble.
+        self.sequences = None
+
+        # A NetworkX graph that stores the assembly graph.
+        self.graph = nx.DiGraph()
+
+    def read_sequences(self, filename):
+        """
+        Reads in the PCR products to assemble, which have been formatted as a
+        FASTA file.
+        """
         self.filename = filename
         self.sequences = [s for s in SeqIO.parse(filename, 'fasta')]
-        self.graph = nx.DiGraph()
+
+    def set_sequences(self, seq_records):
+        """
+        Takes in a list of BioPython SeqRecord objects, in the order that they
+        are to be assembled, and sets the self.sequences attribute to that.
+
+        This method exists rather than setting the attribute directly, so as
+        to perform some basic checks on the SeqRecords that are passed in.
+        """
+        # Make sure that seq_records is a list.
+        assert isinstance(seq_records, list)
+
+        # checks on each SeqRecord
+        for s in seq_records:
+            # Ensure that it is a SeqRecord
+            assert isinstance(s, SeqRecord)
+
+            # Ensure that it has an id that isn't some variant of 'None'
+            assert s.id != ''
+            assert s.id is not None
+            assert s.id != 'None'
+
+        self.sequences = seq_records
 
     def construct_graph(self):
         for i, s in enumerate(self.sequences):
@@ -51,10 +88,10 @@ class PrimerDesigner(object):
                 self.graph.add_edge(s, zeroth_seq)
 
     def design_assembly_primers(self):
-        '''
+        """
         Given the sequences present in the graph, design primers that are
         15 n.t. overhang and 25 n.t. annealing.
-        '''
+        """
         for n, d in self.graph.nodes(data=True):
             current = n
             predecessor = self.graph.predecessors(n)[0]
@@ -66,9 +103,9 @@ class PrimerDesigner(object):
 
             self.graph.node[n]['fw_sequence'] = fw_primer
             self.graph.node[n]['re_sequence'] = re_primer
-            self.graph.node[n]['fw_primer'] = self.filename.split(
+            self.graph.node[n]['fw_primer_name'] = self.filename.split(
                 '.')[0] + '_' + n.id + '_fw'
-            self.graph.node[n]['re_primer'] = self.filename.split(
+            self.graph.node[n]['re_primer_name'] = self.filename.split(
                 '.')[0] + '_' + n.id + '_re'
 
     def design_sequencing_primers(self):
@@ -88,9 +125,13 @@ class PrimerDesigner(object):
     def compute_pcr_protocol(self):
         """
         Returns a list of dictionaries.
-        This format is really flexible, can be converted into a pandas
-        dataframe later on.
+
+        Design note: This format is really flexible, can be converted into a
+        pandas dataframe later on.
         """
+        assert self.filename is not None
+        assert self.filename != ''
+
         pcr_protocol = list()
         for n, d in self.graph.nodes(data=True):
             primers = dict()
@@ -100,8 +141,8 @@ class PrimerDesigner(object):
 
             primers['fw_sequence'] = d['fw_sequence'].seq
             primers['re_sequence'] = d['re_sequence'].seq
-            primers['fw_primer'] = d['fw_primer']
-            primers['re_primer'] = d['re_primer']
+            primers['fw_primer_name'] = d['fw_primer_name']
+            primers['re_primer_name'] = d['re_primer_name']
             primers['fw_len'] = len(d['fw_sequence'])
             primers['re_len'] = len(d['re_sequence'])
             primers['template'] = n.id
