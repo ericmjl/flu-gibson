@@ -197,6 +197,4 @@ class NucleotideConverter(object):
         """
         for step in self.protocol.keys():
 
-
-
             pass

@@ -28,7 +28,6 @@ nc.compute_pcr_fragments()
 # print(nc.intermediates)
 
 
-
 def test_compute_distance_graph():
     assert len(nc.distance_graph.edges()) == 5
 
