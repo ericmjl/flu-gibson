@@ -65,6 +65,11 @@ class PrimerDesigner(object):
         """
         assert isinstance(seq_records, list)
 
+        for s in seq_records:
+            assert s.id != ''
+            assert s.id != None
+            assert s.id != 'None'
+
         self.sequences = seq_records
 
     def construct_graph(self):
@@ -93,9 +98,9 @@ class PrimerDesigner(object):
 
             self.graph.node[n]['fw_sequence'] = fw_primer
             self.graph.node[n]['re_sequence'] = re_primer
-            self.graph.node[n]['fw_primer'] = self.filename.split(
+            self.graph.node[n]['fw_primer_name'] = self.filename.split(
                 '.')[0] + '_' + n.id + '_fw'
-            self.graph.node[n]['re_primer'] = self.filename.split(
+            self.graph.node[n]['re_primer_name'] = self.filename.split(
                 '.')[0] + '_' + n.id + '_re'
 
     def design_sequencing_primers(self):
@@ -115,9 +120,13 @@ class PrimerDesigner(object):
     def compute_pcr_protocol(self):
         """
         Returns a list of dictionaries.
-        This format is really flexible, can be converted into a pandas
-        dataframe later on.
+
+        Design note: This format is really flexible, can be converted into a
+        pandas dataframe later on.
         """
+        assert self.filename != None
+        assert self.filename != ''
+
         pcr_protocol = list()
         for n, d in self.graph.nodes(data=True):
             primers = dict()
@@ -127,8 +136,8 @@ class PrimerDesigner(object):
 
             primers['fw_sequence'] = d['fw_sequence'].seq
             primers['re_sequence'] = d['re_sequence'].seq
-            primers['fw_primer'] = d['fw_primer']
-            primers['re_primer'] = d['re_primer']
+            primers['fw_primer_name'] = d['fw_primer_name']
+            primers['re_primer_name'] = d['re_primer_name']
             primers['fw_len'] = len(d['fw_sequence'])
             primers['re_len'] = len(d['re_sequence'])
             primers['template'] = n.id
