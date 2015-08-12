@@ -45,7 +45,7 @@ class NucleotideConverter(object):
         # The plasmid backbone in which the cloning is to be performed.
         self.plasmid_backbone = None
 
-        # The list of PCR fragments at each stage of assembly.
+        # The dictionary of sequence fragments at each stage of assembly.
         self.fragments = defaultdict(list)
 
     def read_sequences(self, source, destination):

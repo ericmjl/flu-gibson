@@ -55,6 +55,7 @@ def test_compute_intermediate_sequences():
         if k == 2:
             assert distance(str(intermediate.seq), str(nc.src.seq)) == 8
 
+
 def test_compute_pcr_fragments():
     frag_len = dict()
     frag_len[1] = set([591, 417, 4490])
