@@ -2,6 +2,7 @@ from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from Bio.Alphabet import generic_dna
+from collections import defaultdict
 
 import matplotlib.pyplot as plt
 import sys
@@ -129,30 +130,34 @@ class PrimerDesigner(object):
             self.graph.node[upstream]['fw_sequencing_primer'] = fw_primer
             self.graph.node[downstream]['re_sequencing_primer'] = re_primer
 
-    def design_fragment_sequencing_primers(self, node):
+    def design_fragment_sequencing_primers(self):
         """
         For each node in the graph, design primers for sequencing that node.
         """
 
         for n, d in self.graph.nodes(data=True):
             # Identify the upstream and downstream parts.
-            upstream_part = self.graph.predecessors(n)[0]
-            downstream_part = self.graph.successors(n)[0]
+            upstream = self.graph.predecessors(n)[0]
+            downstream = self.graph.successors(n)[0]
 
             # Initialize a list of sequencing primers.
             sequencing_primers = defaultdict(list)
+
             # Add in fw sequencing primer from the upstream part.
             sequencing_primers['fw'].append(upstream.seq[-125:-100])
             # Add in fw sequencing primers from the current part.
             for pos in range(400, len(n.seq), 500):
-                sequencing_primers['fw'].append(n[pos:pos-25])
+                sequencing_primers['fw'].append(n.seq[pos-25:pos])
+
             # Add in re sequencing primers from the downstream part.
             sequencing_primers['re'].append(
                 downstream.seq[100:125].reverse_complement())
             # Add in re sequencing primers from the current part.
             for pos in range(400, len(n.seq), 500):
                 sequencing_primers['re'].append(n.seq.reverse_complement()[
-                    pos:pos-25])
+                    pos-25:pos])
+
+            # Assign the sequencing primers to the node metadata
             self.graph.node[n]['fragment_sequencing_primers'] = \
                 sequencing_primers
 
