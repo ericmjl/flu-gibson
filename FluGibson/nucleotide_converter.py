@@ -94,6 +94,7 @@ class NucleotideConverter(object):
         """
         # Check first to make sure that the distance_graph has been made.
         assert isinstance(self.distance_graph, nx.DiGraph)
+        assert len(self.distance_graph.nodes()) > 0
 
         # Copy the distance graph.
         G = self.distance_graph.copy()
@@ -135,12 +136,24 @@ class NucleotideConverter(object):
         """
         Computes the PCR fragments to assemble, based on the protocol. The protocol currently specifies the codon positions to be mutated. For example, if we have:
 
-            {1: {26, 223, 362}, 2: {224}}
+            {1: {26, 223, 362}, 
+             2: {224}}
 
-        Then the PCR fragments on the plasmid will go from:
+        Then on the first round, the PCR fragments on the plasmid will go from:
             - codon 26-222 (inclusive)
             - codon 223 to 362 (inclusive)
             - codon 362 looping back to 25 (inclusive)
 
-        
+        On the second round, the PCR fragments on the plasmid will go from:
+            - codon 224 looping back to 223
+
+        The output of this function is a set of temporary FASTA files that will define the final plasmid. In this 
+
+
+
+        Parameters:
+        ===========
+        - None
+
+
         """
