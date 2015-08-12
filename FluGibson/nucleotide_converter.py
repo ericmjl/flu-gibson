@@ -69,7 +69,7 @@ class NucleotideConverter(object):
         module_dir = os.path.dirname(os.path.abspath(__file__))
 
         self.backbone = SeqIO.read('{dir}/plasmid_backbones/{backbone}.fasta'
-                                   .format(dir=module_dir, backbone=backbone), 
+                                   .format(dir=module_dir, backbone=backbone),
                                    'fasta')
 
     def compute_diff_codon_positions(self):
@@ -189,7 +189,7 @@ class NucleotideConverter(object):
 
         On the second round, the PCR fragments on the plasmid will go from:
             - codon 224 looping back to 223
-        
+
         Parameters:
         ===========
         - None
