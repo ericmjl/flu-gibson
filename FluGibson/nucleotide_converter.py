@@ -134,7 +134,9 @@ class NucleotideConverter(object):
 
     def compute_pcr_fragments(self):
         """
-        Computes the PCR fragments to assemble, based on the protocol. The protocol currently specifies the codon positions to be mutated. For example, if we have:
+        Computes the PCR fragments to assemble, based on the protocol. The 
+        protocol currently specifies the codon positions to be mutated. For 
+        example, if we have:
 
             {1: {26, 223, 362}, 
              2: {224}}
@@ -147,7 +149,8 @@ class NucleotideConverter(object):
         On the second round, the PCR fragments on the plasmid will go from:
             - codon 224 looping back to 223
 
-        The output of this function is a set of temporary FASTA files that will define the final plasmid. In this 
+        The output of this function is a set of temporary FASTA files that 
+        will define the final plasmid. In this 
 
 
 
