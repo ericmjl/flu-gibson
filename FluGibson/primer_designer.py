@@ -59,13 +59,18 @@ class PrimerDesigner(object):
         Takes in a list of BioPython SeqRecord objects, in the order that they
         are to be assembled, and sets the self.sequences attribute to that.
 
-        This method exists to provide a consistent API, so that it's possible
-        to set sequences by using a setter method rather than by directly
-        modifying the attribute
+        This method exists rather than setting the attribute directly, so as
+        to perform some basic checks on the SeqRecords that are passed in.
         """
+        # Make sure that seq_records is a list.
         assert isinstance(seq_records, list)
 
+        # checks on each SeqRecord
         for s in seq_records:
+            # Ensure that it is a SeqRecord
+            assert isinstance(s, SeqRecord)
+
+            # Ensure that it has an id that isn't some variant of 'None'
             assert s.id != ''
             assert s.id is not None
             assert s.id != 'None'
