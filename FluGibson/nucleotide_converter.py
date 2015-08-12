@@ -178,7 +178,7 @@ class NucleotideConverter(object):
                 source = self.src
             else:
                 source = self.intermediates[step - 1]
-            
+
             # Compute what the intermediate fragment will look like.
             intermediate = ''
             for codon_pos, _ in enumerate(self.src[::3]):
@@ -188,7 +188,7 @@ class NucleotideConverter(object):
                 else:
                     intermediate += source.seq[codon_pos * 3:codon_pos * 3 + 3]
 
-            # Store what the intermediates will look like under the 
+            # Store what the intermediates will look like under the
             # self.intermediates attribute.
             self.intermediates[step] = SeqRecord(seq=intermediate)
 
