@@ -51,6 +51,9 @@ class NucleotideConverter(object):
         # The dictionary of primers to be used for cloning
         self.mutagenesis_primers = defaultdict(dict)
 
+        # A dictionary of PrimerDesigner objects.
+        self.primer_designers = dict()
+
     def read_sequences(self, source, destination):
         """
         Reads in the source and destination sequences.
@@ -237,4 +240,10 @@ class NucleotideConverter(object):
             p.design_sequencing_primers()
             p.compute_pcr_protocol()
 
-            print(p.pcr_protocol)
+            #print(p.pcr_protocol)
+
+            self.primer_designers[step] = p
+
+    def save_mutagenesis_protocol(self):
+        for step, p in self.primer_designers.items():
+            p.save_pcr_protocol()
