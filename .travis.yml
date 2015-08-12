@@ -17,8 +17,8 @@ install:
 
   # Replace dep1 dep2 ... with your dependencies
   - conda create -n test_env python=$TRAVIS_PYTHON_VERSION biopython networkx pandas pytest pep8 matplotlib
-  - pip install python-Levenshtein
   - source activate test_env
+  - pip install python-Levenshtein
   - python setup.py install
 
   # For debugging purposes
