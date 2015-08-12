@@ -170,13 +170,14 @@ class NucleotideConverter(object):
             if step == 1:
                 source = self.src
             else:
-                source = self.intermediates[step-1]
+                source = self.intermediates[step - 1]
             intermediate = ''
             for codon_pos, _ in enumerate(self.src[::3]):
                 if codon_pos in self.protocol[step]:
-                    intermediate += self.des.seq[codon_pos*3:codon_pos*3+3]
+                    intermediate += self.des.seq[codon_pos *
+                                                 3:codon_pos * 3 + 3]
                 else:
-                    intermediate += source.seq[codon_pos*3:codon_pos*3+3]
+                    intermediate += source.seq[codon_pos * 3:codon_pos * 3 + 3]
 
             self.intermediates[step] = SeqRecord(seq=intermediate)
 
@@ -216,9 +217,10 @@ class NucleotideConverter(object):
                     next_pos = positions[0]
                     fragment += self.intermediates[step].seq[pos * 3:]
                     fragment += self.backbone.seq
-                    fragment += self.intermediates[step].seq[0:next_pos*3]
+                    fragment += self.intermediates[step].seq[0:next_pos * 3]
 
-                self.fragments[step].append(SeqRecord(fragment, id='fragment{i}'.format(i=i)))
+                self.fragments[step].append(
+                    SeqRecord(fragment, id='fragment{i}'.format(i=i)))
 
     def compute_mutagenesis_primers(self):
         """

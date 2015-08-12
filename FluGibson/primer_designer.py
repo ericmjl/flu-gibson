@@ -67,7 +67,7 @@ class PrimerDesigner(object):
 
         for s in seq_records:
             assert s.id != ''
-            assert s.id != None
+            assert s.id is not None
             assert s.id != 'None'
 
         self.sequences = seq_records
@@ -124,7 +124,7 @@ class PrimerDesigner(object):
         Design note: This format is really flexible, can be converted into a
         pandas dataframe later on.
         """
-        assert self.filename != None
+        assert self.filename is not None
         assert self.filename != ''
 
         pcr_protocol = list()
