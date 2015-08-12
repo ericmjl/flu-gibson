@@ -14,17 +14,19 @@ nc.compute_diff_codon_positions()
 nc.compute_distance_graph()
 nc.compute_assembly_steps()
 nc.compute_intermediate_sequences()
+nc.compute_pcr_fragments()
 
-for i, _ in enumerate(nc.src.seq[::3]):
-    codon1 = nc.src.seq[(i * 3):(i * 3 + 3)]
-    codon2 = nc.des.seq[(i * 3):(i * 3 + 3)]
-    if str(codon1) != str(codon2):
-        print(i, codon1, codon2)
+# for i, _ in enumerate(nc.src.seq[::3]):
+#     codon1 = nc.src.seq[(i * 3):(i * 3 + 3)]
+#     codon2 = nc.des.seq[(i * 3):(i * 3 + 3)]
+#     if str(codon1) != str(codon2):
+#         print(i, codon1, codon2)
 
 # print("Codon positions: {0}".format(nc.codon_positions))
 # print(nc.distance_graph.edges())
 # print(nc.protocol)
 # print(nc.intermediates)
+
 
 
 def test_compute_distance_graph():
