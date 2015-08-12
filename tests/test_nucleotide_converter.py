@@ -1,5 +1,6 @@
 from FluGibson.nucleotide_converter import NucleotideConverter
 from collections import defaultdict
+from Levenshtein import distance
 import os
 
 # Get the directory of this test file.
@@ -11,16 +12,18 @@ nc.read_sequences('vic_np_mut1.fasta', 'vic_np_mut2.fasta')
 nc.compute_diff_codon_positions()
 nc.compute_distance_graph()
 nc.compute_assembly_steps()
+nc.compute_intermediate_sequences()
 
-for i, _ in enumerate(nc.source.seq[::3]):
-    codon1 = nc.source.seq[(i * 3):(i * 3 + 3)]
-    codon2 = nc.destination.seq[(i * 3):(i * 3 + 3)]
+for i, _ in enumerate(nc.src.seq[::3]):
+    codon1 = nc.src.seq[(i * 3):(i * 3 + 3)]
+    codon2 = nc.des.seq[(i * 3):(i * 3 + 3)]
     if str(codon1) != str(codon2):
         print(i, codon1, codon2)
 
-print("Codon positions: {0}".format(nc.codon_positions))
+# print("Codon positions: {0}".format(nc.codon_positions))
 # print(nc.distance_graph.edges())
-print(nc.protocol)
+# print(nc.protocol)
+# print(nc.intermediates)
 
 
 def test_compute_distance_graph():
@@ -36,3 +39,11 @@ def test_compute_assembly_steps():
 
 def test_compute_diff_codon_positions():
     assert nc.codon_positions == set([224, 26, 362, 223])
+
+
+def test_compute_intermediate_sequences():
+    for k, intermediate in nc.intermediates.items():
+        if k == 1:
+            assert distance(str(intermediate.seq), str(nc.src.seq)) == 6
+        if k == 2:
+            assert distance(str(intermediate.seq), str(nc.src.seq)) == 8
