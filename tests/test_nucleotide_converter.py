@@ -18,8 +18,8 @@ for i, _ in enumerate(nc.source.seq[::3]):
     if str(codon1) != str(codon2):
         print(i, codon1, codon2)
 
-print(nc.codon_positions)
-print(nc.distance_graph.edges())
+print("Codon positions: {0}".format(nc.codon_positions))
+# print(nc.distance_graph.edges())
 print(nc.protocol)
 
 
