@@ -64,7 +64,8 @@ class NucleotideConverter(object):
                    'pDZ-NA', 'pDZ-M', 'pDZ-NS']
         assert backbone in allowed
 
-        self.backbone = SeqIO.read('plasmid_backbones/{0}.fasta'.format(backbone))
+        self.backbone = SeqIO.read('plasmid_backbones/{0}.fasta'
+                                   .format(backbone))
 
     def compute_diff_codon_positions(self):
         """
