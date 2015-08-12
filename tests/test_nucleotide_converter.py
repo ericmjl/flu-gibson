@@ -16,6 +16,11 @@ nc.compute_assembly_steps()
 nc.compute_intermediate_sequences()
 nc.compute_pcr_fragments()
 
+# print(nc.fragments)
+for step, frags in nc.fragments.items():
+    print(step, frags)
+    for frag in frags:
+        print(len(frag))
 # for i, _ in enumerate(nc.src.seq[::3]):
 #     codon1 = nc.src.seq[(i * 3):(i * 3 + 3)]
 #     codon2 = nc.des.seq[(i * 3):(i * 3 + 3)]
@@ -49,3 +54,12 @@ def test_compute_intermediate_sequences():
             assert distance(str(intermediate.seq), str(nc.src.seq)) == 6
         if k == 2:
             assert distance(str(intermediate.seq), str(nc.src.seq)) == 8
+
+def test_compute_pcr_fragments():
+    frag_len = dict()
+    frag_len[1] = set([591, 417, 4490])
+    frag_len[2] = set([5498])
+
+    for step, frags in nc.fragments.items():
+        lengths = set([len(frag) for frag in frags])
+        assert lengths == frag_len[step]

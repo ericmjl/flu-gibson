@@ -39,11 +39,14 @@ class NucleotideConverter(object):
         # The assembly protocol.
         self.protocol = defaultdict(set)
 
-        # The intermediate plasmids.
+        # The intermediate coding sequences.
         self.intermediates = dict()
 
         # The plasmid backbone in which the cloning is to be performed.
         self.plasmid_backbone = None
+
+        # The list of PCR fragments at each stage of assembly.
+        self.fragments = defaultdict(list)
 
     def read_sequences(self, source, destination):
         """
@@ -156,8 +159,8 @@ class NucleotideConverter(object):
 
     def compute_intermediate_sequences(self):
         """
-        Given the step in the protocol, computes the intermediate assembled
-        sequences.
+        Given the step in the protocol, computes the intermediate mutated
+        coding sequences.
         """
 
         for step in self.protocol.keys():
@@ -186,15 +189,30 @@ class NucleotideConverter(object):
         Then on the first round, the PCR fragments on the plasmid will go from:
             - codon 26-222 (inclusive)
             - codon 223 to 362 (inclusive)
-            - codon 362 looping back to 25 (inclusive)
+            - codon 362, onto plasmid backbone, looping back to 25 (inclusive)
 
         On the second round, the PCR fragments on the plasmid will go from:
-            - codon 224 looping back to 223
+            - codon 224, onto plasmid backbone, looping back to 223
 
         Parameters:
         ===========
         - None
         """
-        for step in self.protocol.keys():
+        for step, positions in self.protocol.items():
+            # Ensure that the positions are sorted from smallest to largest.
+            positions = sorted(list(positions))
 
-            pass
+            for i, pos in enumerate(positions):
+                fragment = ''
+                if i < len(positions) - 1:
+                    next_pos = positions[i + 1]
+                    fragment += self.intermediates[
+                        step].seq[pos * 3:next_pos * 3]
+
+                elif i == len(positions) - 1:
+                    next_pos = positions[0]
+                    fragment += self.intermediates[step].seq[pos * 3:]
+                    fragment += self.backbone.seq
+                    fragment += self.intermediates[step].seq[0:next_pos*3]
+
+                self.fragments[step].append(fragment)
