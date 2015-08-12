@@ -47,4 +47,5 @@ def test_design_fragment_sequencing_primers():
                 assert str(primer) in str(n.seq.reverse_complement())
 
             else:
-                assert str(primer) in str(p.graph.successors(n)[0].seq.reverse_complement())
+                assert str(primer) in str(
+                    p.graph.successors(n)[0].seq.reverse_complement())
