@@ -9,6 +9,7 @@ os.chdir(os.path.join(package_directory, 'test_data'))
 
 nc = NucleotideConverter()
 nc.read_sequences('vic_np_mut1.fasta', 'vic_np_mut2.fasta')
+nc.set_backbone('pCI')
 nc.compute_diff_codon_positions()
 nc.compute_distance_graph()
 nc.compute_assembly_steps()

@@ -9,6 +9,7 @@ from Bio.Alphabet import generic_dna
 from collections import defaultdict
 from itertools import combinations
 import networkx as nx
+import os
 
 
 class NucleotideConverter(object):
@@ -55,7 +56,7 @@ class NucleotideConverter(object):
         self.src = src
         self.des = des
 
-    def read_plasmid_backbone(self, backbone):
+    def set_backbone(self, backbone):
         """
         Sets the plasmid backbone that is used for cloning.
         """
@@ -64,8 +65,12 @@ class NucleotideConverter(object):
                    'pDZ-NA', 'pDZ-M', 'pDZ-NS']
         assert backbone in allowed
 
-        self.backbone = SeqIO.read('plasmid_backbones/{0}.fasta'
-                                   .format(backbone))
+        # Get path of this file
+        module_dir = os.path.dirname(os.path.abspath(__file__))
+
+        self.backbone = SeqIO.read('{dir}/plasmid_backbones/{backbone}.fasta'
+                                   .format(dir=module_dir, backbone=backbone), 
+                                   'fasta')
 
     def compute_diff_codon_positions(self):
         """
@@ -123,8 +128,6 @@ class NucleotideConverter(object):
         def _assembly_step(G, current):
             """
             Helper function that computes the current iteration assembly step.
-
-
             """
             step = set([current])
 
@@ -187,10 +190,6 @@ class NucleotideConverter(object):
 
         On the second round, the PCR fragments on the plasmid will go from:
             - codon 224 looping back to 223
-
-
-
-
 
         Parameters:
         ===========
