@@ -35,11 +35,15 @@ class PrimerDesigner(object):
 
     """docstring for PrimerDesigner"""
 
-    def __init__(self, filename):
+    def __init__(self):
         super(PrimerDesigner, self).__init__()
+        self.filename = None
+        self.sequences = None
+        self.graph = nx.DiGraph()
+
+    def read_sequences(self, filename):
         self.filename = filename
         self.sequences = [s for s in SeqIO.parse(filename, 'fasta')]
-        self.graph = nx.DiGraph()
 
     def construct_graph(self):
         for i, s in enumerate(self.sequences):
@@ -52,10 +56,10 @@ class PrimerDesigner(object):
                 self.graph.add_edge(s, zeroth_seq)
 
     def design_assembly_primers(self):
-        '''
+        """
         Given the sequences present in the graph, design primers that are
         15 n.t. overhang and 25 n.t. annealing.
-        '''
+        """
         for n, d in self.graph.nodes(data=True):
             current = n
             predecessor = self.graph.predecessors(n)[0]
