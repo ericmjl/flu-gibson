@@ -47,8 +47,25 @@ class PrimerDesigner(object):
         self.graph = nx.DiGraph()
 
     def read_sequences(self, filename):
+        """
+        Reads in the PCR products to assemble, which have been formatted as a
+        FASTA file.
+        """
         self.filename = filename
         self.sequences = [s for s in SeqIO.parse(filename, 'fasta')]
+
+    def set_sequences(self, seq_records):
+        """
+        Takes in a list of BioPython SeqRecord objects, in the order that they
+        are to be assembled, and sets the self.sequences attribute to that.
+
+        This method exists to provide a consistent API, so that it's possible
+        to set sequences by using a setter method rather than by directly
+        modifying the attribute
+        """
+        assert isinstance(seq_records, list)
+
+        self.sequences = seq_records
 
     def construct_graph(self):
         for i, s in enumerate(self.sequences):
