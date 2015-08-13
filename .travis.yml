@@ -27,7 +27,7 @@ install:
 
 script:
   # Run regular test suite
-  - py.test
+  - py.test --cov-report term-missing --cov FluGibson
   - pep8
 
   # Check to make sure that PyPI installation works
