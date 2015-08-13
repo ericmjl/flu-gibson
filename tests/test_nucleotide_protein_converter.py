@@ -1,6 +1,7 @@
 from FluGibson.nucleotide_protein_converter import NucleotideProteinConverter
 from Levenshtein import distance
 from Bio import SeqIO
+from Bio.Alphabet import DNAAlphabet, ProteinAlphabet
 import os
 import pytest
 
@@ -26,9 +27,18 @@ def test_convert():
 
 
 def test_set_sequences():
-    src = SeqIO.read('vic_np_mut2.fasta', 'fasta')
-    des = SeqIO.read('vic_np_mut1_aa.fasta', 'fasta')
+    src = SeqIO.read('vic_np_mut2.fasta',
+                     'fasta',
+                     alphabet=DNAAlphabet())
+    des = SeqIO.read('vic_np_mut1_aa.fasta',
+                     'fasta',
+                     alphabet=ProteinAlphabet())
 
     # The following should raise an error.
     with pytest.raises(AssertionError):
         np.set_sequences(des, src)
+        np.set_sequences(src, src)
+        np.set_sequences(des, des)
+
+    # The following should not raise an error.
+    np.set_sequences(src, des)
