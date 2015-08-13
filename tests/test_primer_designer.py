@@ -51,3 +51,8 @@ def test_design_fragment_sequencing_primers():
             else:
                 assert str(primer) in str(
                     p.graph.successors(n)[0].seq.reverse_complement())
+
+
+def test_get_fragment_sequencing_primers():
+    primers_df = p.get_fragment_sequencing_primers("Vic_NP")
+    assert len(primers_df) == 8
