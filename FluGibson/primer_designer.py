@@ -95,6 +95,78 @@ class PrimerDesigner(object):
                 zeroth_seq = self.sequences[0]
                 self.graph.add_edge(s, zeroth_seq)
 
+    def list_part_ids(self):
+        """
+        Returns a list of Part IDs.
+        """
+        return [n.id for n in self.graph.nodes()]
+
+    def get_part(self, part_name):
+        """
+        Returns the SeqRecord object whose id is the part_name.
+
+        Paramters:
+        ==========
+        - part_name:   (str) the `id` of the SeqRecord
+
+        Returns:
+        ========
+        - part:        (BioPython SeqRecord) the node in the graph that
+                       contains the part of interest
+        """
+
+        part = None
+        for n, d in self.graph.nodes(data=True):
+            if n.id == part_name:
+                part = n
+
+        if part is None:
+            raise ValueError('Part not present.')
+        else:
+            return part
+
+    def _fragment_sequencing_primers(self, part_name):
+        """
+        Returns the fragment sequencing primers dictionary.
+        """
+        part = self.get_part(part_name)
+
+        return self.graph.node[part]['fragment_sequencing_primers']
+
+    def get_fragment_sequencing_primers(self, part_name):
+        """
+        Returns a pandas DataFrame of the sequencing primers that need to be
+        ordered.
+        """
+        primer_dict = self._fragment_sequencing_primers(part_name)
+
+        primer_list = []
+        for direction, primers in primer_dict.items():
+            for i, primer in enumerate(primers):
+                primer_entry = dict()
+                primer_entry['part'] = part_name
+                primer_entry['direction'] = direction
+                primer_entry['sequence'] = str(primer)
+                primer_entry['idx'] = i
+
+                primer_list.append(primer_entry)
+
+        return pd.DataFrame(primer_list)
+
+    def print_fragment_sequencing_primers(self, part_name):
+        """
+        Uses the _fragment_sequencing_primers() function to get a list of
+        sequencing primers for a given part. It then pretty prints those
+        primers.
+        """
+
+        primer_dict = self._fragment_sequencing_primers(part_name)
+
+        for direction, primers in primer_dict.items():
+            print(direction)
+            for primer in primers:
+                print(primer)
+
     def design_assembly_primers(self):
         """
         Given the sequences present in the graph, design primers that are
@@ -189,6 +261,7 @@ class PrimerDesigner(object):
             primers['phusion_extension_minutes'] = (len(n) + 30) / 1000 * 0.5
             primers['fw_sequencing_primer'] = d['fw_sequencing_primer'].seq
             primers['re_sequencing_primer'] = d['re_sequencing_primer'].seq
+            primers['pcr_template'] = n.id
             pcr_protocol.append(primers)
 
         self.pcr_protocol = pcr_protocol
