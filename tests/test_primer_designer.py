@@ -1,6 +1,7 @@
 from FluGibson.primer_designer import PrimerDesigner
 import os
 import networkx as nx
+import pytest
 
 # Get the directory of this test file.
 package_directory = os.path.dirname(os.path.abspath(__file__))
@@ -56,3 +57,11 @@ def test_design_fragment_sequencing_primers():
 def test_get_fragment_sequencing_primers():
     primers_df = p.get_fragment_sequencing_primers("Vic_NP")
     assert len(primers_df) == 8
+
+    with pytest.raises(ValueError):
+        p.get_fragment_sequencing_primers("Hello") 
+
+
+def test_list_part_ids():
+    parts = p.list_part_ids()
+    assert len(parts) == 2
