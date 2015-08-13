@@ -11,10 +11,11 @@ np.convert()
 
 print(distance(str(np.src_nt.seq), str(np.des_nt.seq)))
 
+
 def test_convert():
     # There are 4 amino acid changes, but because codons are chosen randomly,
     # there could be anywhere between 10 and 12 changes inclusive.
-    
+
     d = distance(str(np.src_nt.seq), str(np.des_nt.seq))
     assert d <= 12
     assert d > 9

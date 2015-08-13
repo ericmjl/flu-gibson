@@ -17,6 +17,7 @@ nc.compute_intermediate_sequences()
 nc.compute_pcr_fragments()
 nc.compute_mutagenesis_primers()
 
+
 def test_compute_distance_graph():
     assert len(nc.distance_graph.edges()) == 5
 

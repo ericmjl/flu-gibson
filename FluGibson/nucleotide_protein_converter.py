@@ -5,6 +5,7 @@ from Bio.Seq import Seq
 from Bio.Data import CodonTable
 from FluGibson import utils
 
+
 class NucleotideProteinConverter(object):
     """
     A class that performs converts one nucleotide sequence into a destination
@@ -30,8 +31,8 @@ class NucleotideProteinConverter(object):
         """
 
         self.src_nt = SeqIO.read(source, 'fasta', alphabet=generic_dna)
-        self.des_aa = SeqIO.read(destination, 
-                                 'fasta', 
+        self.des_aa = SeqIO.read(destination,
+                                 'fasta',
                                  alphabet=generic_protein)
 
     def set_sequences(self, source, destination):
@@ -50,7 +51,7 @@ class NucleotideProteinConverter(object):
 
         self.src = source
         self.des = destination
-    
+
     def convert(self):
         """
         Performs the conversion from source nucleotide sequence to destination
@@ -73,7 +74,7 @@ class NucleotideProteinConverter(object):
                 print('Two codons not the same!')
                 print(codon_tr, self.des_aa.seq[codon_pos])
 
-                # If they aren't the same, add a reverse translated codon. 
+                # If they aren't the same, add a reverse translated codon.
                 # The get_codon function is called from utils.py
                 new_codon = utils.get_codon(self.des_aa.seq[codon_pos])
 
@@ -93,5 +94,3 @@ class NucleotideProteinConverter(object):
         """
 
         SeqIO.write(self.des_nt, filename, 'fasta')
-
-
