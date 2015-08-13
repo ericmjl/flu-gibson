@@ -59,7 +59,7 @@ def test_get_fragment_sequencing_primers():
     assert len(primers_df) == 8
 
     with pytest.raises(ValueError):
-        p.get_fragment_sequencing_primers("Hello") 
+        p.get_fragment_sequencing_primers("Hello")
 
 
 def test_list_part_ids():
