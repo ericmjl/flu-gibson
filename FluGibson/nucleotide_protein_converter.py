@@ -1,5 +1,5 @@
 from Bio import SeqIO
-from Bio.Alphabet import generic_dna, generic_protein
+from Bio.Alphabet import generic_dna, generic_protein, DNAAlphabet, ProteinAlphabet
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
 from Bio.Data import CodonTable
@@ -40,14 +40,14 @@ class NucleotideProteinConverter(object):
         As an alternative to reading the sequences, directly set the
         attributes while providing type checking.
 
-        Assume that the source is a nucleotide SeqRecord, and the destination
+        Check that the source is a nucleotide SeqRecord, and the destination
         is a protein SeqRecord.
         """
 
         assert isinstance(source, SeqRecord)
-        assert isinstance(source.seq.alphabet, generic_dna)
+        assert isinstance(source.seq.alphabet, DNAAlphabet)
         assert isinstance(destination, SeqRecord)
-        assert isinstance(destination.seq.alphabet, generic_protein)
+        assert isinstance(destination.seq.alphabet, ProteinAlphabet)
 
         self.src = source
         self.des = destination
