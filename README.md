@@ -1,6 +1,6 @@
 # FluGibson
 
-![Travis Status](https://travis-ci.org/ericmjl/flu-gibson.svg)
+![Travis Status](https://travis-ci.org/ericmjl/flu-gibson.svg) [![Code Climate](https://codeclimate.com/github/ericmjl/flu-gibson/badges/gpa.svg)](https://codeclimate.com/github/ericmjl/flu-gibson)
 
 A tool for designing primers to clone influenza polymerase segments from viral cDNA.
 
