@@ -1,5 +1,6 @@
 from Bio import SeqIO
-from Bio.Alphabet import generic_dna, generic_protein, DNAAlphabet, ProteinAlphabet
+from Bio.Alphabet import generic_dna, generic_protein, DNAAlphabet,\
+    ProteinAlphabet
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
 from Bio.Data import CodonTable
