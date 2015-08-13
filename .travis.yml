@@ -21,7 +21,7 @@ install:
   # Do any pip installs here.
   - pip install python-Levenshtein
   - pip install pytest-cov
-  - python setup.py install
+  - python setup.py develop
 
   # For debugging purposes
   - conda list
