@@ -47,9 +47,14 @@ class NucleotideProteinConverter(object):
         """
 
         assert isinstance(source, SeqRecord)
-        assert isinstance(source.seq.alphabet, DNAAlphabet)
+        assert isinstance(source.seq.alphabet,
+                          DNAAlphabet), 'Source must be a BioPython DNA\
+            sequence.'
+
         assert isinstance(destination, SeqRecord)
-        assert isinstance(destination.seq.alphabet, ProteinAlphabet)
+        assert isinstance(destination.seq.alphabet,
+                          ProteinAlphabet), 'Destination must be a BioPython\
+            Protein sequence.'
 
         self.src = source
         self.des = destination
