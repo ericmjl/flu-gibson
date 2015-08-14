@@ -10,7 +10,8 @@ from FluGibson import utils
 class NucleotideProteinConverter(object):
     """
     A class that performs converts one nucleotide sequence into a destination
-    protein sequence, by performing the necessary mutations required.
+    protein's nucleotide version, by performing the necessary mutations
+    required.
     """
     def __init__(self):
         super(NucleotideProteinConverter, self).__init__()
