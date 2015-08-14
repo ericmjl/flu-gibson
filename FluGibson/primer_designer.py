@@ -11,13 +11,17 @@ import networkx as nx
 
 
 class PrimerDesigner(object):
-
     """
     A small utility that produces Gibson/CPEC assembly primers to be assembled
     into a circular plasmid.
 
-    Input: A single FASTA file containing nucleotide sequences in clockwise
-    order of assembly. The nucleotide sequence should all be the same strand.
+    Input: One of two ways to feed sequences in:
+    - A single FASTA file containing nucleotide sequences in clockwise order
+      of assembly. The nucleotide sequence should all be the same strand.
+    - Pass in a list of parts using the set_sequences() function, ensuring
+      that they are:
+        1. In the correct order of assembly, and
+        2. All BioPython SeqRecord objects.
 
     Output: A set of named 40-mer primers required for the assembly, along with
     their sequences, and the predicted PCR product size.
@@ -156,6 +160,10 @@ class PrimerDesigner(object):
         Uses the _fragment_sequencing_primers() function to get a list of
         sequencing primers for a given part. It then pretty prints those
         primers.
+
+        Paramters:
+        ==========
+        - part_name:    (str) the name of the DNA part of interest.
         """
 
         primer_dict = self._fragment_sequencing_primers(part_name)
