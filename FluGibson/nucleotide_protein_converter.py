@@ -83,7 +83,7 @@ class NucleotideProteinConverter(object):
                 new_codon = utils.get_codon(self.des_aa.seq[codon_pos])
 
                 new_sequence += str(new_codon)
-            
+
             else:
                 # If they are the same, then simply append the codon to the
                 # new sequence.

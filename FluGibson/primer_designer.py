@@ -16,16 +16,16 @@ class PrimerDesigner(object):
     A small utility that produces Gibson/CPEC assembly primers to be assembled
     into a circular plasmid.
 
-    Input: A single FASTA file containing nucleotide sequences in clockwise order
-    of assembly. The nucleotide sequence should all be the same strand.
+    Input: A single FASTA file containing nucleotide sequences in clockwise
+    order of assembly. The nucleotide sequence should all be the same strand.
 
     Output: A set of named 40-mer primers required for the assembly, along with
     their sequences, and the predicted PCR product size.
 
     Assumptions:
     - The region of annealing is not repeated anywhere, i.e. it is unique.
-    - The plasmid sequence is predicted to be stable (no homologous recombination
-      possible).
+    - The plasmid sequence is predicted to be stable (no homologous
+      recombination possible).
 
     Dependencies:
     - biopython
