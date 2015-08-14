@@ -78,16 +78,15 @@ class NucleotideProteinConverter(object):
 
             # Check if translated codon is the same as the amino acid sequence.
             if str(codon_tr) != self.des_aa.seq[codon_pos]:
-                print('Two codons not the same!')
-                print(codon_tr, self.des_aa.seq[codon_pos])
-
                 # If they aren't the same, add a reverse translated codon.
                 # The get_codon function is called from utils.py
                 new_codon = utils.get_codon(self.des_aa.seq[codon_pos])
 
                 new_sequence += str(new_codon)
-
+            
             else:
+                # If they are the same, then simply append the codon to the
+                # new sequence.
                 new_sequence += str(codon)
 
         self.des_nt = SeqRecord(new_sequence, id='{0}_nt'.format(
