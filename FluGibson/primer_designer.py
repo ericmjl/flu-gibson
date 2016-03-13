@@ -189,10 +189,8 @@ class PrimerDesigner(object):
 
             self.graph.node[n]['fw_sequence'] = fw_primer
             self.graph.node[n]['re_sequence'] = re_primer
-            self.graph.node[n]['fw_primer_name'] = self.filename.split(
-                '.')[0] + '_' + n.id + '_fw'
-            self.graph.node[n]['re_primer_name'] = self.filename.split(
-                '.')[0] + '_' + n.id + '_re'
+            self.graph.node[n]['fw_primer_name'] = self.filename.split('.')[0] + '_' + n.id + '_fw'
+            self.graph.node[n]['re_primer_name'] = self.filename.split('.')[0] + '_' + n.id + '_re'
 
     def design_junction_sequencing_primers(self):
         """
@@ -279,12 +277,3 @@ class PrimerDesigner(object):
 
         pd.DataFrame(self.pcr_protocol).to_csv(
             "{filename}.csv".format(filename=self.filename.split('.')[0]))
-
-
-# if __name__ == '__main__':
-
-#     filename = sys.argv[1]
-#     pdesigner = PrimerDesigner(filename)
-#     pdesigner.design_primers()
-#     pdesigner.compute_pcr_protocol()
-#     pdesigner.save_pcr_protocol()
