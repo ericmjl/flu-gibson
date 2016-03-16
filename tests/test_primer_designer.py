@@ -1,6 +1,6 @@
 from FluGibson.primer_designer import PrimerDesigner
 import os
-import networkx as nx
+from Bio.SeqRecord import SeqRecord
 import pytest
 
 # Get the directory of this test file.
@@ -11,30 +11,34 @@ os.chdir(os.path.join(package_directory, 'test_data'))
 p = PrimerDesigner()
 p.read_sequences('victoria_np.fasta')
 p.construct_graph()
-p.design_assembly_primers()
-p.design_junction_sequencing_primers()
-p.design_fragment_sequencing_primers()
-p.compute_pcr_protocol()
 
-print(p.pcr_protocol)
-for n, d in p.graph.nodes(data=True):
-    print(n)
-    print(d['fragment_sequencing_primers'])
-# print(p.graph.nodes(data=True))
+
+def test_read_sequences():
+    assert len(p.sequences) == 2
 
 
 def test_construct_graph():
-    assert len(p.graph) == 2
-    assert len(p.graph.edges()) == 2
-    assert isinstance(p.graph, nx.DiGraph)
+    assert len(p.nodes()) == 2
+    assert len(p.edges()) == 2
+
+
+def test_has_part():
+    assert p.has_part('Vic_NP')
+    assert p.has_part('pCI')
 
 
 def test_compute_pcr_protocol():
     pass
 
 
+def test_get_all_assembly_primers():
+
+    primers = p.get_all_assembly_primers()
+    assert len(primers) == 4
+
+
 def test_design_fragment_sequencing_primers():
-    for n, d in p.graph.nodes(data=True):
+    for n, d in p.nodes(data=True):
         frag_seq_primers = d['fragment_sequencing_primers']
 
         # Check that the forward primers are designed correctly.
@@ -42,7 +46,7 @@ def test_design_fragment_sequencing_primers():
             if i >= 1:
                 assert str(primer) in str(n.seq)
             else:
-                assert str(primer) in str(p.graph.predecessors(n)[0].seq)
+                assert str(primer) in str(p.predecessors(n)[0].seq)
 
         # Check that the reverse primers are designed correctly.
         for i, primer in enumerate(frag_seq_primers['re']):
@@ -51,7 +55,21 @@ def test_design_fragment_sequencing_primers():
 
             else:
                 assert str(primer) in str(
-                    p.graph.successors(n)[0].seq.reverse_complement())
+                    p.successors(n)[0].seq.reverse_complement())
+
+
+def test_node_attributes_are_correct():
+    """
+    Ensures that each node in the graph conforms to the data model specified.
+    """
+    for n, d in p.nodes(data=True):
+        assert isinstance(n, SeqRecord)
+        assert 'fw_cloning_primer' in d.keys()
+        assert 're_cloning_primer' in d.keys()
+
+    for u, v, d in p.edges(data=True):
+        assert 'fw_sequencing_primer' in d.keys()
+        assert 're_sequencing_primer' in d.keys()
 
 
 def test_get_fragment_sequencing_primers():
@@ -60,8 +78,3 @@ def test_get_fragment_sequencing_primers():
 
     with pytest.raises(ValueError):
         p.get_fragment_sequencing_primers("Hello")
-
-
-def test_list_part_ids():
-    parts = p.list_part_ids()
-    assert len(parts) == 2

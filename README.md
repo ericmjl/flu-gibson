@@ -54,6 +54,13 @@ To produce the CSV file that has all of the primers listed, from the command lin
 
 # Changelog
 
+## Version 1.3
+
+- API changes that allow for interfacing with a [browser-based GUI][1] that is being developed in parallel.
+- Added standard influenza cloning plasmid backbones.
+
 ## Version 1.2
 
-Added a class that converts one nucleotide sequence into another, using Gibson assembly primers.
+- Added a class that converts one nucleotide sequence into another, using Gibson assembly primers.
+
+[1]: http://github.com/ericmjl/flu-gibson-webui/

@@ -247,8 +247,8 @@ class NucleotideConverter(object):
             # Ensure to set the filename attribute.
             p.filename = 'step{step}'.format(step=step)
             p.construct_graph()
-            p.design_assembly_primers()
-            p.design_junction_sequencing_primers()
+            p.compute_assembly_primers()
+            p.compute_junction_sequencing_primers()
             p.compute_pcr_protocol()
 
             self.primer_designers[step] = p
