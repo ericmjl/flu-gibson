@@ -32,15 +32,12 @@ from Bio.SeqRecord import SeqRecord
 from Bio.Alphabet import DNAAlphabet
 from collections import defaultdict
 
-import pandas as pd
 import networkx as nx
 
 
 class PrimerDesigner(nx.DiGraph):
     """
     Sub-classes nx.DiGraph.
-
-
     """
 
     def __init__(self):
@@ -190,7 +187,6 @@ class PrimerDesigner(nx.DiGraph):
             # Assign the sequencing primers to the node metadata
             self.node[n]['fragment_sequencing_primers'] = sequencing_primers
 
-
     def get_part_ids(self):
         """
         Returns a list of Part IDs.
@@ -242,81 +238,32 @@ class PrimerDesigner(nx.DiGraph):
 
         return self.node[part]['fragment_sequencing_primers']
 
-    def get_fragment_sequencing_primers(self, part_name):
+    def pcr_protocol(self):
         """
-        Returns a pandas DataFrame of the sequencing primers that need to be
-        ordered.
-        """
-        primer_dict = self.get_fragment_sequencing_primers(part_name)
+        Returns a list of dictionaries. The PCR protocol involves the
+        following:
 
-        primer_list = []
-        for direction, primers in primer_dict.items():
-            for i, primer in enumerate(primers):
-                primer_entry = dict()
-                primer_entry['part'] = part_name
-                primer_entry['direction'] = direction
-                primer_entry['sequence'] = str(primer)
-                primer_entry['idx'] = i
-
-                primer_list.append(primer_entry)
-
-        return pd.DataFrame(primer_list)
-
-    def print_fragment_sequencing_primers(self, part_name):
-        """
-        Uses the fragment_sequencing_primers_() function to get a list of
-        sequencing primers for a given part. It then pretty prints those
-        primers.
-
-        Paramters:
-        ==========
-        - part_name:    (str) the name of the DNA part of interest.
-        """
-
-        primer_dict = self.fragment_sequencing_primers_(part_name)
-
-        for direction, primers in primer_dict.items():
-            print(direction)
-            for primer in primers:
-                print(primer)
-
-    def compute_pcr_protocol(self):
-        """
-        Returns a list of dictionaries.
+        - template: self.node.id
+        - fw_primer: self.node[n]['fw_cloning_primer']
+        - re_primer: self.node[n]['re_cloning_primer']
+        - product_length: len(n.seq) + 30
+        - phusion_extension_time: in minutes
 
         Design note: This format is really flexible, can be converted into a
         pandas dataframe later on.
         """
-        assert self.filename is not None
-        assert self.filename != ''
 
         pcr_protocol = list()
         for n, d in self.nodes(data=True):
             primers = dict()
-
-            primers['fw_sequence'] = d['fw_sequence'].seq
-            primers['re_sequence'] = d['re_sequence'].seq
-            primers['fw_primer_name'] = d['fw_sequence'].id
-            primers['re_primer_name'] = d['re_sequence'].id
-            primers['fw_len'] = len(d['fw_sequence'])
-            primers['re_len'] = len(d['re_sequence'])
             primers['template'] = n.id
-            primers['pcr_length'] = len(n) + 30
-            primers['phusion_extension_minutes'] = (len(n) + 30) / 1000 * 0.5
-            primers['fw_sequencing_primer'] = d['fw_sequencing_primer'].seq
-            primers['re_sequencing_primer'] = d['re_sequencing_primer'].seq
-            primers['pcr_template'] = n.id
+            primers['fw_cloning_primer'] = d['fw_cloning_primer']
+            primers['re_cloning_primer'] = d['re_cloning_primer']
+            primers['product_length'] = len(n) + 30
+            primers['phusion_extension_time'] = (len(n) + 30) / 1000 * 0.5
             pcr_protocol.append(primers)
 
-        self.pcr_protocol = pcr_protocol
-
-    def save_pcr_protocol(self):
-        """
-        Saves the PCR protocol as a CSV file.
-        """
-
-        pd.DataFrame(self.pcr_protocol).to_csv(
-            "{filename}.csv".format(filename=self.filename.split('.')[0]))
+        return pcr_protocol
 
     def get_all_assembly_primers(self):
         """
@@ -329,3 +276,12 @@ class PrimerDesigner(nx.DiGraph):
             primers.append(d['re_cloning_primer'])
 
         return primers
+
+    def assembled_plasmid(self):
+        """
+        Returns a SeqRecord object containing the sequence of the final
+        assembled plasmid.
+        """
+        
+        
+        pass

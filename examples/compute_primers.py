@@ -9,11 +9,7 @@ for f in os.listdir(os.getcwd()):
     if '.fasta' in f:
         p = PrimerDesigner()
         p.read_sequences(f)
-        p.set_sequences(p.sequences)
         p.construct_graph()
-        p.design_assembly_primers()
-        p.design_junction_sequencing_primers()
-        p.design_fragment_sequencing_primers()
         p.compute_pcr_protocol()
         p.save_pcr_protocol()
 
