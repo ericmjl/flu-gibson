@@ -60,13 +60,17 @@ class PrimerDesigner(nx.DiGraph):
             s.seq.alphabet = DNAAlphabet()
             self.sequences.append(s)
 
-    def set_sequences(self, seq_records):
+    def add_sequences(self, seq_records):
         """
-        Takes in a list of BioPython SeqRecord objects, in the order that they
-        are to be assembled, and sets the self.sequences attribute to that.
+        Takes in a list of BioPython SeqRecord objects, in the correct order
+        to be assembled, and appends them to the self.sequences attribute.
+        """
+        self.check_seqrecords(seq_records)
+        self.sequences.extend(seq_records)
 
-        This method exists rather than setting the attribute directly, so as
-        to perform some basic checks on the SeqRecords that are passed in.
+    def check_seqrecords(self, seq_records):
+        """
+        A utility function to check that the seqrecords are valid ones.
         """
         # Make sure that seq_records is a list.
         assert isinstance(seq_records, list), "A list of SeqRecords must be\
@@ -88,6 +92,16 @@ class PrimerDesigner(nx.DiGraph):
             if not isinstance(s.seq.alphabet, DNAAlphabet):
                 s.seq.alphabet = DNAAlphabet()
 
+
+    def set_sequences(self, seq_records):
+        """
+        Takes in a list of BioPython SeqRecord objects, in the order that they
+        are to be assembled, and sets the self.sequences attribute to that.
+
+        This method exists rather than setting the attribute directly, so as
+        to perform some basic checks on the SeqRecords that are passed in.
+        """
+        sefl.check_seqrecords(seq_records)
         self.sequences = seq_records
 
     def construct_graph(self):
@@ -250,7 +264,7 @@ class PrimerDesigner(nx.DiGraph):
         - phusion_extension_time: in minutes
 
         Design note: This format is really flexible, can be converted into a
-        pandas dataframe later on.
+        pandas dataframe later on. I will not opt to provide a save_pcr_protocol function later.
         """
 
         pcr_protocol = list()
@@ -258,7 +272,9 @@ class PrimerDesigner(nx.DiGraph):
             primers = dict()
             primers['template'] = n.id
             primers['fw_cloning_primer'] = d['fw_cloning_primer']
+            primers['fw_cloning_primer_name'] = '{0}_fw_cloning_primer'.format(n.id)
             primers['re_cloning_primer'] = d['re_cloning_primer']
+            primers['re_cloning_primer_name'] = '{0}_re_cloning_primer'.format(n.id)
             primers['product_length'] = len(n) + 30
             primers['phusion_extension_time'] = (len(n) + 30) / 1000 * 0.5
             pcr_protocol.append(primers)

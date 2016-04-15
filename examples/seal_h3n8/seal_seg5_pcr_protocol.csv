@@ -1,0 +1,19 @@
+,fw_cloning_primer,fw_cloning_primer_name,phusion_extension_time,product_length,re_cloning_primer,re_cloning_primer_name,template
+0,"ID: <unknown id>
+Name: <unknown name>
+Description: <unknown description>
+Number of features: 0
+Seq('GACATCCACATCATGATGGCGTCTCAAGGCACCAAACGAT', DNAAlphabet())",Seg5_fw_cloning_primer,0.7635,1527,"ID: <unknown id>
+Name: <unknown name>
+Description: <unknown description>
+Number of features: 0
+Seq('GGGTATTTTTCTTTATTAATTGTCATACTCCTCTGCATTG', DNAAlphabet())",Seg5_re_cloning_primer,Seg5
+1,"ID: <unknown id>
+Name: <unknown name>
+Description: <unknown description>
+Number of features: 0
+Seq('GAGTATGACAATTAATAAAGAAAAATACCCTTGTTTCTAC', DNAAlphabet())",pDZ_NP_fw_cloning_primer,2.52,5040,"ID: <unknown id>
+Name: <unknown name>
+Description: <unknown description>
+Number of features: 0
+Seq('GCCTTGAGACGCCATCATGATGTGGATGTCACTCGGTGAG', DNAAlphabet())",pDZ_NP_re_cloning_primer,pDZ_NP
