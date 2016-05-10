@@ -16,6 +16,6 @@ plasmid_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
 # print(os.listdir(plasmid_dir))
 
 plasmids = {f.strip('.fasta'): SeqIO.read(os.path.join(plasmid_dir, f),
-                                         'fasta') for f in
+                                          'fasta') for f in
             os.listdir(plasmid_dir)}
 print(plasmids)
