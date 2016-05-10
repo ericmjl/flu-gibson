@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-import sys
 
 from FluGibson.primer_designer import PrimerDesigner
 from FluGibson.plasmids import plasmids
@@ -35,25 +34,12 @@ if __name__ == '__main__':
             f = f.replace('.fasta', '')
             pd.DataFrame(protocol).to_csv('{0}_pcr_protocol.csv'.format(f))
             for n, d in p.nodes(data=True):
-                # print(n, d)
-                # for direction in ['fw', 're']:
-                #     primer_data = dict()
-                #     primer_data['{0}_junction_primer'.format(direction)] = \
-                #         d['{0}_sequence'.format(direction)].seq
-                #     primer_data['{0}_sequencing_primer'.format(direction)] = \
-                #         d['{0}_sequencing_primer'.format(direction)].seq
-
-                #     primer_data['part'] = n.id
-                #     primer_data['{0}_junction_primer_name'.format(direction)] = '{0}_{1}_junction'.format(direction, n.id)
-                #     primer_data['{0}_seuqencing_primer_name'.format(direction)] = '{0}_{1}_sequencing'.format(direction, n.id)
-
-                #     master_primer_list.append(primer_data)
-
                 """Grab out the cloning primers."""
                 primer_data = dict()
                 for drxn in ['fw', 're']:
                     primer_data['part'] = n.id
-                    primer_data['{0}_cloning_primer'.format(drxn)] = str(d['{0}_cloning_primer'.format(drxn)].seq)
+                    primer_data['{0}_cloning_primer'.format(drxn)] =\
+                        str(d['{0}_cloning_primer'.format(drxn)].seq)
                 master_cloning_primers.append(primer_data)
 
     pd.DataFrame(master_cloning_primers).to_csv('all_primers.csv')
