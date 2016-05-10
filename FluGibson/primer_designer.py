@@ -92,7 +92,6 @@ class PrimerDesigner(nx.DiGraph):
             if not isinstance(s.seq.alphabet, DNAAlphabet):
                 s.seq.alphabet = DNAAlphabet()
 
-
     def set_sequences(self, seq_records):
         """
         Takes in a list of BioPython SeqRecord objects, in the order that they
@@ -101,7 +100,7 @@ class PrimerDesigner(nx.DiGraph):
         This method exists rather than setting the attribute directly, so as
         to perform some basic checks on the SeqRecords that are passed in.
         """
-        sefl.check_seqrecords(seq_records)
+        self.check_seqrecords(seq_records)
         self.sequences = seq_records
 
     def construct_graph(self):
@@ -264,7 +263,8 @@ class PrimerDesigner(nx.DiGraph):
         - phusion_extension_time: in minutes
 
         Design note: This format is really flexible, can be converted into a
-        pandas dataframe later on. I will not opt to provide a save_pcr_protocol function later.
+        pandas dataframe later on. I will not opt to provide a
+        save_pcr_protocol function later.
         """
 
         pcr_protocol = list()
@@ -272,9 +272,11 @@ class PrimerDesigner(nx.DiGraph):
             primers = dict()
             primers['template'] = n.id
             primers['fw_cloning_primer'] = d['fw_cloning_primer']
-            primers['fw_cloning_primer_name'] = '{0}_fw_cloning_primer'.format(n.id)
+            primers['fw_cloning_primer_name'] = '{0}_fw_cloning_primer'.format(
+                n.id)
             primers['re_cloning_primer'] = d['re_cloning_primer']
-            primers['re_cloning_primer_name'] = '{0}_re_cloning_primer'.format(n.id)
+            primers['re_cloning_primer_name'] = '{0}_re_cloning_primer'.format(
+                n.id)
             primers['product_length'] = len(n) + 30
             primers['phusion_extension_time'] = (len(n) + 30) / 1000 * 0.5
             pcr_protocol.append(primers)
@@ -298,6 +300,5 @@ class PrimerDesigner(nx.DiGraph):
         Returns a SeqRecord object containing the sequence of the final
         assembled plasmid.
         """
-        
-        
+
         pass
