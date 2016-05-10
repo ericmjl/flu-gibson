@@ -73,8 +73,9 @@ def test_node_attributes_are_correct():
 
 
 def test_get_fragment_sequencing_primers():
-    primers_df = p.get_fragment_sequencing_primers("Vic_NP")
-    assert len(primers_df) == 8
+    primers = p.get_fragment_sequencing_primers("Vic_NP")
+    for _, pr in primers.items():  # _ = direction, pr = primers
+        assert len(pr) == 4, print(pr)
 
     with pytest.raises(ValueError):
         p.get_fragment_sequencing_primers("Hello")
