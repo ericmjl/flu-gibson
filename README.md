@@ -10,10 +10,13 @@ The installation requires the following packages:
 
 1. `networkx`
 2. `biopython`
-3. `pandas` (optional)
-4. `matplotlib` (optional)
+3. `pandas`
+4. `matplotlib`
+5. `flask`
 
-*From Github:*
+I have provided an `environment.yml` file for `conda` users.
+
+*From Github (recommended):*
 
 1. Download this repository as a Zip file.
 2. Unzip the file.
@@ -31,6 +34,13 @@ The installation requires the following packages:
 2. Run command: `conda install FluGibson`
 
 # Usage
+
+## Web App
+
+The web app in the `app` directory provides a graphical user interface to operate FluGibson. To run it:
+
+    $ cd app
+    $ python app.py
 
 ## Scripted
 
