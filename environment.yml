@@ -1,0 +1,8 @@
+name: flugibson
+dependencies:
+- python=3
+- biopython
+- pandas
+- networkx
+- matplotlib
+- flask
