@@ -13,6 +13,7 @@ The installation requires the following packages:
 3. `pandas`
 4. `matplotlib`
 5. `flask`
+6. `ipython`
 
 I have provided an `environment.yml` file for `conda` users.
 
