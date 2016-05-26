@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>FluGibson Primer Calculator</title>
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+</head>
+ 
+<body>
+    <div id="content" class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="/">Home</a></li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">FluGibson Primer Calculator</h3>
+        </div>
+        <div>
+            <form method='post' action="/compute_primers">
+                <div class="form-group">
+                    <label for="sequence_name">Sequence Name</label><br>
+                    <input class="form-control" name="sequence_name"></input>
+                </div>
+                <div class="form-group">
+                    <label for="sequence">Sequence</label><br>
+                    <textarea class="form-control" name="sequence" rows="8"></textarea>
+                </div>
+                <div class="form_group">
+                    <label for="backbone">Plasmid Backbone</label>
+                    </ul>
+                    <select name="backbone">
+                        <option value="pCI">pCI</option>
+                        <option value="pDZ-PB2">pDZ-PB2</option>
+                        <option value="pDZ-PB1">pDZ-PB1</option>
+                        <option value="pDZ-PA">pDZ-PA</option>
+                        <option value="pDZ-HA">pDZ-HA</option>
+                        <option value="pDZ-NP">pDZ-NP</option>
+                        <option value="pDZ-NA">pDZ-NA</option>
+                        <option value="pDZ-M">pDZ-M</option>
+                        <option value="pDZ-NS">pDZ-NS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-default" type='submit' name='submit' value='compute_primers'>Calculate Primers</button>
+                </div>
+            </form>            
+        </div>
+
+        <footer class="footer">
+            <p>&copy; Runstadler Laboratory, MIT</p>
+        </footer>
+ 
+    </div>
+</body>
+ 
+</html>

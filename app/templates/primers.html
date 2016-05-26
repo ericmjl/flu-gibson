@@ -1,0 +1,70 @@
+{% extends "master.html" %}
+
+{% block page_title %}Calculated Primers{% endblock %}
+
+{% block content %}
+
+<div id="cloning primers">
+    <h3>Cloning Primers</h3>
+    <p>Order the following primers to perform cloning.</p>
+    {% for n, d in nodes %}
+        <li>Part: {{ n.id }}</li>
+        <ul>
+            <li>{{n.id}}_fw: 5'-{{ d['fw_cloning_primer'].seq }}-3'</li>
+            <li>{{n.id}}_re: 5'-{{ d['re_cloning_primer'].seq }}-3'</li>
+        </ul>
+    {% endfor %}
+</div>
+<div id="cloning pcr protocol">
+    <h3>Cloning PCR Protocol</h3>
+    <table class="table table-hover table-responsive">
+        <tr>
+            <td><strong>Template</strong></td>
+            <td><strong>FW Primer</strong></td>
+            <td><strong>RE Primer</strong></td>
+            <td><strong>PCR Product<br>
+            Length (bp)</strong></td>
+            <td><strong>Extension<br>
+            Time (sec)</strong></td>
+        </tr>
+        {% for primer in protocol %}
+        <tr>
+            <td>{{ primer['template'] }}</td>
+            <td>{{ primer['template'] }}_fw</td>
+            <td>{{ primer['template'] }}_re</td>
+            <td>{{ primer['product_length'] }}</td>
+            <td>{{ primer['phusion_extension_time'] * 60 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div id="sequencing primers">
+    <h3>Sequencing Primers</h3>
+    <p>(Optional) Use these primers to double-check that there were no PCR-related copying errors.</p>
+    {% for n, d in nodes %}
+        <li>Part: {{ n.id }}</li>
+        <ul>
+            {% for direction, primers in d['fragment_sequencing_primers'].items() %}
+                <li> {{ direction }} </li>
+                <ul>
+                {% for primer in primers %}
+                    <li>5'-{{ primer }}-3'</li>
+                {% endfor %}
+                </ul>
+            {% endfor %}
+
+        </ul>
+    {% endfor %}
+</div>
+<div id="junction sequencing primers">
+    <h3>Junction Sequencing Primers</h3>
+    <p>Use these primers to check that the junctions assembled correctly.</p>
+    {% for u, v, d in edges %}
+    <li>Junction: [{{ u.id }}, {{ v.id }}]</li>
+    <ul>
+        <li>FW: 5'-{{ d['fw_sequencing_primer'].seq }}-3'</li>
+        <li>RE: 5'-{{ d['re_sequencing_primer'].seq }}-3'</li>
+    </ul>
+    {% endfor %}
+</div>
+{% endblock %}

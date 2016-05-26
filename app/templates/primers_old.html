@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>FluGibson Primer Calculator</title>
+ 
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+ 
+ 
+</head>
+ 
+<body>
+ 
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation"><a href="/">Home</a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">FluGibson Primer Calculator</h3>
+        </div>
+        <div name="cloning primers">
+            <h3>Cloning Primers</h3>
+            <p>Order the following primers to perform cloning.</p>
+            {% for n, d in nodes %}
+                <li>Part: {{ n.id }}</li>
+                <ul>
+                    <li>FW: 5'-{{ d['fw_cloning_primer'].seq }}-3'</li>
+                    <li>RE: 5'-{{ d['re_cloning_primer'].seq }}-3'</li>
+                </ul>
+            {% endfor %}
+            <h3>Sequencing Primers</h3>
+            <p>(Optional) Use these primers to double-check that there were no PCR-related copying errors.</p>
+            {% for n, d in nodes %}
+                <li>Part: {{ n.id }}</li>
+                <ul>
+                    {% for direction, primers in d['fragment_sequencing_primers'].items() %}
+                        <li> {{ direction }} </li>
+                        <ul>
+                        {% for primer in primers %}
+                            <li>5'-{{ primer }}-3'</li>
+                        {% endfor %}
+                        </ul>
+                    {% endfor %}
+
+                </ul>
+            {% endfor %}
+            <h3>Junction Sequencing Primers</h3>
+            <p>Use these primers to check that the junctions assembled correctly.</p>
+            {% for u, v, d in edges %}
+            <li>Junction: [{{ u.id }}, {{ v.id }}]</li>
+            <ul>
+                <li>FW: 5'-{{ d['fw_sequencing_primer'].seq }}-3'</li>
+                <li>RE: 5'-{{ d['re_sequencing_primer'].seq }}-3'</li>
+            </ul>
+            {% endfor %}
+        </div>
+        
+        <footer class="footer">
+            <p>&copy; Runstadler Laboratory, MIT</p>
+        </footer>
+ 
+    </div>
+</body>
+ 
+</html>
