@@ -53,7 +53,7 @@ def error(message):
 def compute_primers():
     # Get the part names.
     sequence_name = request.form['sequence_name']
-    sequence = request.form['sequence'].replace('\n','')
+    sequence = request.form['sequence'].replace('\n', '')
     backbone = request.form['backbone']
 
     # Validation checks
@@ -66,7 +66,7 @@ def compute_primers():
         part = SeqRecord(Seq(sequence.upper(), alphabet=generic_dna),
                          name=sequence_name, id=sequence_name)
         backbone_part = plasmids[backbone]
-      
+
         p = PrimerDesigner()
         p.set_sequences([part, backbone_part])
         p.construct_graph()
