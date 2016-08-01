@@ -4,9 +4,9 @@ from Bio.SeqRecord import SeqRecord
 import pytest
 
 # Get the directory of this test file.
-package_directory = os.path.dirname(os.path.abspath(__file__))
+pkg_dir = os.path.dirname(os.path.abspath(__file__))
 
-os.chdir(os.path.join(package_directory, 'test_data'))
+os.chdir(os.path.join(pkg_dir, 'test_data'))
 
 p = PrimerDesigner()
 p.read_sequences('victoria_np.fasta')

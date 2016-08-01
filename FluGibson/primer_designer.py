@@ -143,8 +143,8 @@ class PrimerDesigner(nx.DiGraph):
         """
         for n, d in self.nodes(data=True):
             current = d['object']
-            predecessor = self.node[self.predecessors(n)[0]]['object']
-            successor = self.node[self.successors(n)[0]]['object']
+            predecessor = self.get_obj(self.predecessors(n)[0])
+            successor = self.get_obj(self.successors(n)[0])
 
             fw_primer = SeqRecord(predecessor.seq[-15:] + current.seq[0:25])
             re_primer = SeqRecord(current.seq[-25:] +
@@ -152,6 +152,12 @@ class PrimerDesigner(nx.DiGraph):
 
             self.node[n]['fw_cloning_primer'] = fw_primer
             self.node[n]['re_cloning_primer'] = re_primer
+
+    def get_obj(self, node):
+        """
+        Helper function to get the SeqRecord object from a node.
+        """
+        return self.node[node]['object']
 
     def compute_junction_sequencing_primers(self):
         """
@@ -161,14 +167,13 @@ class PrimerDesigner(nx.DiGraph):
 
         The junction sequencing primers are stored as edge attributes.
         """
-        for upstream, downstream, d in self.edges(data=True):
-            fw_primer = SeqRecord(self.node[upstream]['object'].seq[-125:-100])
-            re_primer = SeqRecord(
-                self.node[downstream]['object'].seq[100:125]
-                ).reverse_complement()
+        for upstr, dwstr, d in self.edges(data=True):
+            fw_primer = SeqRecord(self.get_obj(upstr).seq[-125:-100])
+            re_primer = SeqRecord(self.get_obj(dwstr).seq[100:125])\
+                        .reverse_complement()
 
-            self.edge[upstream][downstream]['fw_sequencing_primer'] = fw_primer
-            self.edge[upstream][downstream]['re_sequencing_primer'] = re_primer
+            self.edge[upstr][dwstr]['fw_sequencing_primer'] = fw_primer
+            self.edge[upstr][dwstr]['re_sequencing_primer'] = re_primer
 
     def compute_fragment_sequencing_primers(self):
         """
@@ -180,29 +185,27 @@ class PrimerDesigner(nx.DiGraph):
 
         for n, d in self.nodes(data=True):
             # Identify the upstream and downstream parts.
-            upstream = self.predecessors(n)[0]
-            downstream = self.successors(n)[0]
+            upstr = self.predecessors(n)[0]
+            dwstr = self.successors(n)[0]
 
             # Initialize a list of sequencing primers.
             sequencing_primers = defaultdict(list)
 
             # Add in fw sequencing primer from the upstream part.
             sequencing_primers['fw'].append(
-                self.node[upstream]['object'].seq[-125:-100])
+                self.get_obj(upstr).seq[-125:-100])
             # Add in fw sequencing primers from the current part.
-            for pos in range(400, len(self.node[n]['object'].seq), 500):
+            for pos in range(400, len(self.get_obj(n).seq), 500):
                 sequencing_primers['fw'].append(
-                    self.node[n]['object'].seq[pos-25:pos])
+                    self.get_obj(n).seq[pos-25:pos])
 
             # Add in re sequencing primers from the downstream part.
             sequencing_primers['re'].append(
-                self.node[downstream]['object'].seq[100:125]
-                .reverse_complement())
+                self.get_obj(dwstr).seq[100:125].reverse_complement())
             # Add in re sequencing primers from the current part.
-            for pos in range(400, len(self.node[n]['object'].seq), 500):
+            for pos in range(400, len(self.get_obj(n).seq), 500):
                 sequencing_primers['re'].append(
-                    self.node[n]['object']
-                    .seq.reverse_complement()[pos-25:pos])
+                    self.get_obj(n).seq.reverse_complement()[pos-25:pos])
 
             # Assign the sequencing primers to the node metadata
             self.node[n]['fragment_sequencing_primers'] = sequencing_primers
