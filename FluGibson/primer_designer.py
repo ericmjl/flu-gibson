@@ -109,8 +109,9 @@ class PrimerDesigner(nx.DiGraph):
         computes the necessary primers as well.
 
         The graph definition is as such:
-        - nodes: SeqRecord object
+        - nodes: SeqRecord.id
             - node attributes:
+                - SeqRecord object
                 - fw_cloning_primer
                 - re_cloning_primer
         - edges: delineating the junction between SeqRecord objects.
@@ -123,13 +124,13 @@ class PrimerDesigner(nx.DiGraph):
                   [b] junction, and takes the reverse complement.
         """
         for i, s in enumerate(self.sequences):
-            self.add_node(s)
+            self.add_node(s.id, object=s)
             if i > 0:
-                prev_seq = self.sequences[i - 1]
-                self.add_edge(prev_seq, s)
+                prev_seq = self.sequences[i - 1].id
+                self.add_edge(prev_seq, s.id)
             if i == len(self.sequences) - 1:
-                zeroth_seq = self.sequences[0]
-                self.add_edge(s, zeroth_seq)
+                zeroth_seq = self.sequences[0].id
+                self.add_edge(s.id, zeroth_seq)
 
         self.compute_assembly_primers()
         self.compute_junction_sequencing_primers()
@@ -141,9 +142,9 @@ class PrimerDesigner(nx.DiGraph):
         15 n.t. overhang and 25 n.t. annealing.
         """
         for n, d in self.nodes(data=True):
-            current = n
-            predecessor = self.predecessors(n)[0]
-            successor = self.successors(n)[0]
+            current = d['object']
+            predecessor = self.node[self.predecessors(n)[0]]['object']
+            successor = self.node[self.successors(n)[0]]['object']
 
             fw_primer = SeqRecord(predecessor.seq[-15:] + current.seq[0:25])
             re_primer = SeqRecord(current.seq[-25:] +
@@ -161,8 +162,10 @@ class PrimerDesigner(nx.DiGraph):
         The junction sequencing primers are stored as edge attributes.
         """
         for upstream, downstream, d in self.edges(data=True):
-            fw_primer = SeqRecord(upstream.seq[-125:-100])
-            re_primer = SeqRecord(downstream.seq[100:125]).reverse_complement()
+            fw_primer = SeqRecord(self.node[upstream]['object'].seq[-125:-100])
+            re_primer = SeqRecord(
+                self.node[downstream]['object'].seq[100:125]
+                ).reverse_complement()
 
             self.edge[upstream][downstream]['fw_sequencing_primer'] = fw_primer
             self.edge[upstream][downstream]['re_sequencing_primer'] = re_primer
@@ -184,18 +187,21 @@ class PrimerDesigner(nx.DiGraph):
             sequencing_primers = defaultdict(list)
 
             # Add in fw sequencing primer from the upstream part.
-            sequencing_primers['fw'].append(upstream.seq[-125:-100])
+            sequencing_primers['fw'].append(
+                self.node[upstream]['object'].seq[-125:-100])
             # Add in fw sequencing primers from the current part.
-            for pos in range(400, len(n.seq), 500):
-                sequencing_primers['fw'].append(n.seq[pos-25:pos])
+            for pos in range(400, len(self.node[n]['object'].seq), 500):
+                sequencing_primers['fw'].append(
+                    self.node[n]['object'].seq[pos-25:pos])
 
             # Add in re sequencing primers from the downstream part.
             sequencing_primers['re'].append(
-                downstream.seq[100:125].reverse_complement())
+                self.node[downstream]['object'].seq[100:125]\
+                .reverse_complement())
             # Add in re sequencing primers from the current part.
-            for pos in range(400, len(n.seq), 500):
-                sequencing_primers['re'].append(n.seq.reverse_complement()[
-                    pos-25:pos])
+            for pos in range(400, len(self.node[n]['object'].seq), 500):
+                sequencing_primers['re'].append(
+                    self.node[n]['object'].seq.reverse_complement()[pos-25:pos])
 
             # Assign the sequencing primers to the node metadata
             self.node[n]['fragment_sequencing_primers'] = sequencing_primers
@@ -270,13 +276,13 @@ class PrimerDesigner(nx.DiGraph):
         pcr_protocol = list()
         for n, d in self.nodes(data=True):
             primers = dict()
-            primers['template'] = n.id
+            primers['template'] = n
             primers['fw_cloning_primer'] = d['fw_cloning_primer']
             primers['fw_cloning_primer_name'] = '{0}_fw_cloning_primer'.format(
-                n.id)
+                n)
             primers['re_cloning_primer'] = d['re_cloning_primer']
             primers['re_cloning_primer_name'] = '{0}_re_cloning_primer'.format(
-                n.id)
+                n)
             primers['product_length'] = len(n) + 30
             primers['phusion_extension_time'] = (len(n) + 30) / 1000 * 0.5
             pcr_protocol.append(primers)

@@ -66,12 +66,12 @@ def compute_primers():
         return error('Sequence length has to be at least 100 n.t.')
     else:
         # Create a SeqRecord object.
-        part = SeqRecord(Seq(sequence.upper(), alphabet=generic_dna),
-                         name=sequence_name, id=sequence_name)
-        backbone_part = plasmids[backbone]
+        parts = [SeqRecord(Seq(sequence.upper(), alphabet=generic_dna),
+                           name=sequence_name, id=sequence_name)]
+        parts.extend(plasmids[backbone])
 
         p = PrimerDesigner()
-        p.set_sequences([part, backbone_part])
+        p.set_sequences(parts)
         p.construct_graph()
 
         nodes = p.nodes(data=True)
