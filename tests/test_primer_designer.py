@@ -48,7 +48,8 @@ def test_design_fragment_sequencing_primers():
                 assert str(primer) in str(sequence)
             else:
                 # assert str(primer) in str(p.predecessors(n)[0].seq)
-                predecessor_sequence = p.node[p.predecessors(n)[0]]['object'].seq
+                predecessor_sequence = \
+                    p.node[p.predecessors(n)[0]]['object'].seq
                 assert str(primer) in predecessor_sequence
         # Check that the reverse primers are designed correctly.
         for i, primer in enumerate(frag_seq_primers['re']):
@@ -57,7 +58,9 @@ def test_design_fragment_sequencing_primers():
                 assert str(primer) in str(sequence)
 
             else:
-                successor_sequence = p.node[p.successors(n)[0]]['object'].seq.reverse_complement()
+                successor_sequence = \
+                    p.node[p.successors(n)[0]]['object']\
+                    .seq.reverse_complement()
                 assert str(primer) in str(successor_sequence)
 
 

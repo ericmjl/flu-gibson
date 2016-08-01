@@ -196,12 +196,13 @@ class PrimerDesigner(nx.DiGraph):
 
             # Add in re sequencing primers from the downstream part.
             sequencing_primers['re'].append(
-                self.node[downstream]['object'].seq[100:125]\
+                self.node[downstream]['object'].seq[100:125]
                 .reverse_complement())
             # Add in re sequencing primers from the current part.
             for pos in range(400, len(self.node[n]['object'].seq), 500):
                 sequencing_primers['re'].append(
-                    self.node[n]['object'].seq.reverse_complement()[pos-25:pos])
+                    self.node[n]['object']
+                    .seq.reverse_complement()[pos-25:pos])
 
             # Assign the sequencing primers to the node metadata
             self.node[n]['fragment_sequencing_primers'] = sequencing_primers
