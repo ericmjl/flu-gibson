@@ -210,7 +210,7 @@ class PrimerDesigner(nx.DiGraph):
         """
         Returns a list of Part IDs.
         """
-        return [n.id for n in self.nodes()]
+        return [n for n in self.nodes()]
 
     def has_part(self, id):
         """
@@ -244,7 +244,7 @@ class PrimerDesigner(nx.DiGraph):
         """
         if self.has_part(part_name):
             for n, d in self.nodes(data=True):
-                if n.id == part_name:
+                if n == part_name:
                     return n
         else:
             raise ValueError('Part {0} not present.'.format(part_name))
