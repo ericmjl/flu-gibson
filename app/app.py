@@ -84,4 +84,4 @@ def compute_primers():
                                protocol=protocol)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5005)
