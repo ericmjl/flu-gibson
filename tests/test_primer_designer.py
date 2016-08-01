@@ -44,18 +44,21 @@ def test_design_fragment_sequencing_primers():
         # Check that the forward primers are designed correctly.
         for i, primer in enumerate(frag_seq_primers['fw']):
             if i >= 1:
-                assert str(primer) in str(n.seq)
+                sequence = p.node[n]['object'].seq
+                assert str(primer) in str(sequence)
             else:
-                assert str(primer) in str(p.predecessors(n)[0].seq)
-
+                # assert str(primer) in str(p.predecessors(n)[0].seq)
+                predecessor_sequence = p.node[p.predecessors(n)[0]]['object'].seq
+                assert str(primer) in predecessor_sequence
         # Check that the reverse primers are designed correctly.
         for i, primer in enumerate(frag_seq_primers['re']):
             if i >= 1:
-                assert str(primer) in str(n.seq.reverse_complement())
+                sequence = p.node[n]['object'].seq.reverse_complement()
+                assert str(primer) in str(sequence)
 
             else:
-                assert str(primer) in str(
-                    p.successors(n)[0].seq.reverse_complement())
+                successor_sequence = p.node[p.successors(n)[0]]['object'].seq.reverse_complement()
+                assert str(primer) in str(successor_sequence)
 
 
 def test_node_attributes_are_correct():
@@ -63,7 +66,8 @@ def test_node_attributes_are_correct():
     Ensures that each node in the graph conforms to the data model specified.
     """
     for n, d in p.nodes(data=True):
-        assert isinstance(n, SeqRecord)
+        assert isinstance(d['object'], SeqRecord)
+        assert isinstance(n, str)
         assert 'fw_cloning_primer' in d.keys()
         assert 're_cloning_primer' in d.keys()
 
