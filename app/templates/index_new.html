@@ -19,19 +19,13 @@
         <p class="small">Select a commonly used plasmid backbone to clone into.</p>
         </ul>
         <select name="backbone">
-            <option value="pCI">pCI</option>
-            <option value="pDZ-PB2">pDZ-PB2</option>
-            <option value="pDZ-PB1">pDZ-PB1</option>
-            <option value="pDZ-PA">pDZ-PA</option>
-            <option value="pDZ-HA">pDZ-HA</option>
-            <option value="pDZ-NP">pDZ-NP</option>
-            <option value="pDZ-NA">pDZ-NA</option>
-            <option value="pDZ-M">pDZ-M</option>
-            <option value="pDZ-NS">pDZ-NS</option>
+          {% for plasmid in plasmids %}
+            <option value="{{ plasmid }}">{{ plasmid }}</option>
+          {% endfor %}
         </select>
     </div>
     <div class="form-group">
         <button class="btn btn-default" type='submit' name='submit' value='compute_primers'>Calculate Primers</button>
     </div>
-</form>            
+</form>
 {% endblock %}
