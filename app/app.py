@@ -44,12 +44,12 @@ def validate_sequence_length(sequence):
         return False
 
 
-@app.errorhandler(600)
-def error(message):
-    """
-    Displays the error message.
-    """
-    return render_template('error.html', message=message), 600
+# @app.errorhandler(600)
+# def error(message):
+#     """
+#     Displays the error message.
+#     """
+#     return render_template('error.html', message=message)
 
 
 @app.route('/compute_primers', methods=['POST'])
