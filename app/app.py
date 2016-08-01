@@ -13,7 +13,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    return render_template('index_new.html')
+    # Get a list of all of the available backbones.
+    backbones = sorted([i for i in plasmids.keys()])
+    print(backbones)
+    return render_template('index_new.html', plasmids=plasmids)
 
 
 def validate_sequence_characters(sequence):
