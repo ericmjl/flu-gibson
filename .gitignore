@@ -58,3 +58,25 @@ docs/_build/
 
 # PyBuilder
 target/
+
+examples/seal_h3n8/seal_seg8_pcr_protocol.csv
+
+examples/seal_h3n8/all_primers.csv
+
+examples/seal_h3n8/all_primers.csv
+
+examples/seal_h3n8/all_primers.csv
+
+examples/seal_h3n8/seal_seg1_pcr_protocol.csv
+
+examples/seal_h3n8/seal_seg2_pcr_protocol.csv
+
+examples/seal_h3n8/seal_seg3_pcr_protocol.csv
+
+examples/seal_h3n8/seal_seg4_pcr_protocol.csv
+
+examples/seal_h3n8/seal_seg7_pcr_protocol.csv
+
+examples/seal_h3n8/seal_seg6_pcr_protocol.csv
+
+examples/seal_h3n8/seal_seg5_pcr_protocol.csv
