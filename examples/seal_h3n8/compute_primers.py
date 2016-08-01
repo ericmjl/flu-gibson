@@ -24,10 +24,11 @@ if __name__ == '__main__':
             for k, v in segmaps.items():
                 if k in f:
                     segment = v
-            backbone = plasmids['pDZ-{0}'.format(segment)]
+            backbone = plasmids['pDZ-{0}-split'.format(segment)]
+            print(backbone)
             p = PrimerDesigner()
             p.read_sequences(f)
-            p.add_sequences([backbone])
+            p.add_sequences(backbone)
             p.construct_graph()
             protocol = p.pcr_protocol()
 
@@ -37,7 +38,7 @@ if __name__ == '__main__':
                 """Grab out the cloning primers."""
                 primer_data = dict()
                 for drxn in ['fw', 're']:
-                    primer_data['part'] = n.id
+                    primer_data['part'] = n
                     primer_data['{0}_cloning_primer'.format(drxn)] =\
                         str(d['{0}_cloning_primer'.format(drxn)].seq)
                 master_cloning_primers.append(primer_data)
