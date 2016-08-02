@@ -16,7 +16,7 @@ def main():
     # Get a list of all of the available backbones.
     backbones = sorted([i for i in plasmids.keys()])
     print(backbones)
-    return render_template('index_new.html', plasmids=plasmids)
+    return render_template('index_new.html', plasmids=backbones)
 
 
 def validate_sequence_characters(sequence):
@@ -45,11 +45,11 @@ def validate_sequence_length(sequence):
 
 
 # @app.errorhandler(600)
-# def error(message):
-#     """
-#     Displays the error message.
-#     """
-#     return render_template('error.html', message=message)
+def error(message):
+    """
+    Displays the error message.
+    """
+    return render_template('error.html', message=message)
 
 
 @app.route('/compute_primers', methods=['POST'])
