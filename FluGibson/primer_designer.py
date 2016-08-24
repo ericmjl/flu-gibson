@@ -139,16 +139,16 @@ class PrimerDesigner(nx.DiGraph):
     def compute_assembly_primers(self):
         """
         Given the sequences present in the graph, design primers that are
-        15 n.t. overhang and 25 n.t. annealing.
+        20 n.t. overhang and 40 n.t. annealing.
         """
         for n, d in self.nodes(data=True):
             current = d['object']
             predecessor = self.get_obj(self.predecessors(n)[0])
             successor = self.get_obj(self.successors(n)[0])
 
-            fw_primer = SeqRecord(predecessor.seq[-15:] + current.seq[0:25])
-            re_primer = SeqRecord(current.seq[-25:] +
-                                  successor.seq[0:15]).reverse_complement()
+            fw_primer = SeqRecord(predecessor.seq[-20:] + current.seq[0:40])
+            re_primer = SeqRecord(current.seq[-40:] +
+                                  successor.seq[0:20]).reverse_complement()
 
             self.node[n]['fw_cloning_primer'] = fw_primer
             self.node[n]['re_cloning_primer'] = re_primer
