@@ -24,7 +24,7 @@ if __name__ == '__main__':
             for k, v in segmaps.items():
                 if k in f:
                     segment = v
-            backbone = plasmids['pDZ-{0}-split'.format(segment)]
+            backbone = plasmids['pDZ-{0}-split2'.format(segment)]
             print(backbone)
             p = PrimerDesigner()
             p.read_sequences(f)
